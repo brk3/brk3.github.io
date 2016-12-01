@@ -1,0 +1,12 @@
+baseurl = "https://brk3.github.io/"
+languageCode = "en-us"
+title = "brk3.github.io"
+
+theme = "nofancy"
+
+[author]
+    name = "Paul Bourke"
+    github = "brk3"
+    #linkedin = "YOUR LINKEDIN ID"
+    #gaID = "YOUR Google Analytics Tracking ID"
+    twitter = "brk3"
