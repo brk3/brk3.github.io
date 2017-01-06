@@ -3,8 +3,8 @@
 
   
   <meta charset="utf-8">
-  <title>brk3.github.io</title>
-  <meta name="description" content="brk3.github.io">
+  <title>How to Hugo</title>
+  <meta name="description" content="How to Hugo">
   <meta name="author" content="Paul Bourke">
 
   
@@ -73,54 +73,73 @@
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/how-to-hugo/">How to Hugo</a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">2017-01-06</time>
+		            
+                    
+                    |
+                    
+                    
 
-		  <p class="footnote">
-			submitted <time datetime="2017-01-06T17:15:03Z" class="post-list timeago">2017-01-06T17:15:03Z</time>
+                    
+                    categories:<a href="https://brk3.github.io/categories/howto">howto</a> 
+                    
 
-			
-			to
-			
+                    
+                </p>
+                <h1>How to Hugo</h1>
+            </div>
 
-			
+            <div class="post-content">
+                <p>Here&rsquo;s how to publish new posts on this blog using Hugo.</p>
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
+<ul>
+<li>Install hugo (via apt or from <a href="https://github.com/spf13/hugo/releases">https://github.com/spf13/hugo/releases</a>)</li>
+</ul>
 
-			
+<pre><code class="language-bash">apt install hugo
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/hello-world/">Hello World</a>
+<ul>
+<li>Setup the repo</li>
+</ul>
 
-		  <p class="footnote">
-			submitted <time datetime="2016-12-01T14:13:31Z" class="post-list timeago">2016-12-01T14:13:31Z</time>
+<pre><code class="language-bash">git clone -b source https://github.com/brk3/brk3.github.io
+</code></pre>
 
-			
+<ul>
+<li>Create a new post</li>
+</ul>
 
-			
+<pre><code class="language-bash">hugo new post/how-to-hugo.md
+vi content/post/how-to-hugo.md
+</code></pre>
 
-			
+<ul>
+<li>Generate the site</li>
+</ul>
 
-			
+<pre><code class="language-bash">hugo
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-	  </ul>
+<ul>
+<li>Commit</li>
+</ul>
+
+<pre><code class="language-bash">git add .
+git commit -av
+
+git checkout master
+cp -r public/* .
+git add .
+git commit -av
+</code></pre>
+
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
