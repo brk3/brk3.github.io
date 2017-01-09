@@ -115,9 +115,7 @@
 <li>Setup the repo</li>
 </ul>
 
-<pre><code class="language-bash">git clone https://github.com/brk3/brk3.github.io
-git checkout source
-git clone https://github.com/gizak/nofancy themes/nofancy
+<pre><code class="language-bash">git clone -b source git@github.com:brk3/brk3.github.io.git
 </code></pre>
 
 <ul>
@@ -142,8 +140,11 @@ git clone https://github.com/gizak/nofancy themes/nofancy
 git commit -av
 
 git checkout master
+cp -r public/* .
 git add .
-git commit -av
+git commit -am &quot;Regenerate Site&quot;
+
+git push --all
 </code></pre>
 
             </div>

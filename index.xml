@@ -70,9 +70,7 @@
 &lt;li&gt;Setup the repo&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git clone https://github.com/brk3/brk3.github.io
-git checkout source
-git clone https://github.com/gizak/nofancy themes/nofancy
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git clone -b source git@github.com:brk3/brk3.github.io.git
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
@@ -97,8 +95,11 @@ git clone https://github.com/gizak/nofancy themes/nofancy
 git commit -av
 
 git checkout master
+cp -r public/* .
 git add .
-git commit -av
+git commit -am &amp;quot;Regenerate Site&amp;quot;
+
+git push --all
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
