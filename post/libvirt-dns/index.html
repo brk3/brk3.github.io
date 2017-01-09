@@ -3,8 +3,8 @@
 
   
   <meta charset="utf-8">
-  <title>Howto</title>
-  <meta name="description" content="Howto">
+  <title>Libvirt DNS</title>
+  <meta name="description" content="Libvirt DNS">
   <meta name="author" content="Paul Bourke">
 
   
@@ -78,62 +78,66 @@
 </div>
 
 
-
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	  <p class="posts-name">Howto:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/libvirt-dns/">Libvirt DNS</a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">2017-01-09</time>
+		            
+                    
+                    |
+                    
+                    
 
-		  <p class="footnote">
-			submitted <time datetime="2017-01-09T12:26:42Z" class="post-list timeago">2017-01-09T12:26:42Z</time>
+                    
+                    categories:<a href="https://brk3.github.io/categories/howto">howto</a> 
+                    
 
-			
-			to
-			
+                    
+                </p>
+                <h1>Libvirt DNS</h1>
+            </div>
 
-			
+            <div class="post-content">
+                <p>Here&rsquo;s some short notes on how to configure DNS for libvirt managed VMs.</p>
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
+<ul>
+<li>Create a libvirt network, and add the following to it&rsquo;s XML:</li>
+</ul>
 
-			
+<pre><code class="language-xml">&lt;network&gt;
+  ...
+  &lt;domain name='my.domain.local'/&gt;
+  ...
+&lt;/network&gt;
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/how-to-hugo/">How to Hugo</a>
+<ul>
+<li>Ensure the instance has DHCP_HOSTNAME set in network-scripts. I use virt-edit to do this:</li>
+</ul>
 
-		  <p class="footnote">
-			submitted <time datetime="2017-01-06T17:15:03Z" class="post-list timeago">2017-01-06T17:15:03Z</time>
+<pre><code class="language-bash">virt-edit \
+    -d $name \
+    /etc/sysconfig/network-scripts/ifcfg-eth0 \
+    -e 's/^DHCP_HOSTNAME=.*/DHCP_HOSTNAME=&quot;'$name'&quot;/'
+</code></pre>
 
-			
-			to
-			
+<p>(above is taken from <a href="https://gist.github.com/brk3/8d029adf03fbfcd5b69f473cea451355">https://gist.github.com/brk3/8d029adf03fbfcd5b69f473cea451355</a>)</p>
 
-			
+<ul>
+<li>Ensure the gateway is available as a nameserver in /etc/resolv.conf:</li>
+</ul>
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
+<pre><code>nameserver 192.168.4.1
+</code></pre>
 
-			
+<p>That&rsquo;s it, VMs should be pingable/contactable via their hostnames from the host.</p>
 
-		  </p>
-		</li>
-		
-		
-	  </ul>
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>

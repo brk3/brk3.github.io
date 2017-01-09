@@ -46,6 +46,10 @@
                 </li>
                 
                 <li class="pure-menu-item">
+                    <a href="https://brk3.github.io/categories/misc" class="pure-menu-link">Misc</a>
+                </li>
+                
+                <li class="pure-menu-item">
                     <a href="https://brk3.github.io/about/" class="pure-menu-link">About</a>
                 </li>
             </ul>
@@ -58,6 +62,10 @@
                 
                 <li class="pure-menu-item">
                     <a href="https://brk3.github.io/categories/howto" class="pure-menu-link">Howto</a>
+                </li>
+                
+                <li class="pure-menu-item">
+                    <a href="https://brk3.github.io/categories/misc" class="pure-menu-link">Misc</a>
                 </li>
                 
                 <li class="pure-menu-item">
@@ -107,7 +115,9 @@
 <li>Setup the repo</li>
 </ul>
 
-<pre><code class="language-bash">git clone -b source https://github.com/brk3/brk3.github.io
+<pre><code class="language-bash">git clone https://github.com/brk3/brk3.github.io
+git checkout source
+git clone https://github.com/gizak/nofancy themes/nofancy
 </code></pre>
 
 <ul>
@@ -115,7 +125,6 @@
 </ul>
 
 <pre><code class="language-bash">hugo new post/how-to-hugo.md
-vi content/post/how-to-hugo.md
 </code></pre>
 
 <ul>
@@ -133,7 +142,6 @@ vi content/post/how-to-hugo.md
 git commit -av
 
 git checkout master
-cp -r public/* .
 git add .
 git commit -av
 </code></pre>
