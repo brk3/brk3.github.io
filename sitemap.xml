@@ -3,8 +3,13 @@
   
   <url>
     <loc>https://brk3.github.io/</loc>
-    <lastmod>2017-01-09T12:26:42+00:00</lastmod>
+    <lastmod>2017-01-18T16:47:06+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://brk3.github.io/post/nested-hvm-xen/</loc>
+    <lastmod>2017-01-18T16:47:06+00:00</lastmod>
   </url>
   
   <url>

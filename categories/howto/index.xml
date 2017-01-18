@@ -6,8 +6,86 @@
     <description>Recent content in Howto on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Jan 2017 12:26:42 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Jan 2017 16:47:06 +0000</lastBuildDate>
     <atom:link href="https://brk3.github.io/categories/howto/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Nested Xen</title>
+      <link>https://brk3.github.io/post/nested-hvm-xen/</link>
+      <pubDate>Wed, 18 Jan 2017 16:47:06 +0000</pubDate>
+      
+      <guid>https://brk3.github.io/post/nested-hvm-xen/</guid>
+      <description>
+
+&lt;p&gt;As part of efforts to more regularly test the Xen hypervisor with Nova as part of OpenStack
+development, I&amp;rsquo;m spending some time figuring out how to virtualise Xen on Xen, specifically Oracle&amp;rsquo;s
+&lt;a href=&#34;https://www.oracle.com/virtualization/vm-server-for-x86/index.html&#34;&gt;Oracle VM Server&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In virtualisation terms the different levels of hypervisor are referred to as &lt;em&gt;LN&lt;/em&gt;, where N is the
+&lt;a href=&#34;https://wiki.xenproject.org/wiki/Nested_Virtualization_in_Xen#Introduction&#34;&gt;nesting level&lt;/a&gt;. In our setup, Oracle VM Server 3.4.2 (OVM-S) is running on baremetal as &lt;em&gt;L0&lt;/em&gt;,
+another instance of OVM-S is running on that as &lt;em&gt;L1&lt;/em&gt;, and the final OpenStack instantiated guest
+would be &lt;em&gt;L2&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are not so many blogs or up to date howtos in this area, so most of the below comes direct
+from the official &lt;a href=&#34;https://xenbits.xen.org/docs/unstable/man/xl.cfg.5.html&#34;&gt;Xen documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Also, we&amp;rsquo;re using the xenlight (xl) toolkit, as of yet I have not found how to enable the relevant
+parameters in libvirt to make nesting work.&lt;/p&gt;
+
+&lt;p&gt;Starting from &lt;em&gt;L0&lt;/em&gt;, here is an example &lt;em&gt;xl&lt;/em&gt; guest config file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;builder = &amp;quot;hvm&amp;quot;
+name = &amp;quot;example&amp;quot;
+memory = 4096
+vcpus = 2
+vif = [ &#39;bridge=xenbr0&#39; ]
+disk = [ &#39;format=raw, vdev=hda, access=rw, target=/root/disk.img&#39;, &#39;format=raw, vdev=hdc, access=ro, devtype=cdrom, target=/root/V789846-01.iso&#39; ]
+vnc = 1
+vnclisten=&amp;quot;0.0.0.0&amp;quot;
+hap=1
+nestedhvm=1
+cpuid = [&#39;0x1:ecx=0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;]
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is copied directly from &lt;em&gt;/etc/xen/xlexample.hvm&lt;/em&gt;, with minor tweaks for disks and networking.
+The sample files are a good place to start as the above example will almost certainly be out of date
+in time.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m using bridged &lt;a href=&#34;https://wiki.xenproject.org/wiki/Xen_Networking&#34;&gt;networking&lt;/a&gt;, &lt;em&gt;xenbr0&lt;/em&gt; was created in the usual way with the hosts default
+interface added to it.&lt;/p&gt;
+
+&lt;p&gt;The last three &lt;a href=&#34;https://wiki.xenproject.org/wiki/Nested_Virtualization_in_Xen#Quick-start_guide&#34;&gt;lines&lt;/a&gt; are the important pieces, without these &lt;em&gt;L1&lt;/em&gt; will fail to install with the
+following error:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;libxl__domain_make domain creation fail: cannot make domain: -3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once logged into &lt;em&gt;L1&lt;/em&gt;, an image can be booted for &lt;em&gt;L2&lt;/em&gt;. In an OpenStack environment Nova will be
+managing this step. To verify it&amp;rsquo;s working however, we can boot Cirros in Xen using the following
+config:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;builder = &amp;quot;hvm&amp;quot;
+name = &amp;quot;example.hvm&amp;quot;
+memory = 128
+vcpus = 2
+vif = [ &#39;xenbr0&#39; ]
+disk = [ &#39;/root/cirros.img,qcow2,xvda&#39; ]
+vnc = 1
+vnclisten=&amp;quot;0.0.0.0&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;todo:48c662fdaa1dee96ee554c22f51e2376&#34;&gt;TODO&lt;/h2&gt;
+
+&lt;p&gt;I will continue to update this post in time as I make improvements to this process. In particular, I
+would like to solve the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set the required nesting params via libvirt, so that we aren&amp;rsquo;t forced to use xl.&lt;/li&gt;
+&lt;li&gt;Install using console rather than VNC.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Libvirt DNS</title>

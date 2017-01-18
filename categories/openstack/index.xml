@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on brk3.github.io</title>
-    <link>https://brk3.github.io/post/</link>
-    <description>Recent content in Posts on brk3.github.io</description>
+    <title>Openstack on brk3.github.io</title>
+    <link>https://brk3.github.io/categories/openstack/</link>
+    <description>Recent content in Openstack on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 18 Jan 2017 16:47:06 +0000</lastBuildDate>
-    <atom:link href="https://brk3.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://brk3.github.io/categories/openstack/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Nested Xen</title>
@@ -84,111 +84,6 @@ would like to solve the following:&lt;/p&gt;
 &lt;li&gt;Set the required nesting params via libvirt, so that we aren&amp;rsquo;t forced to use xl.&lt;/li&gt;
 &lt;li&gt;Install using console rather than VNC.&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Libvirt DNS</title>
-      <link>https://brk3.github.io/post/libvirt-dns/</link>
-      <pubDate>Mon, 09 Jan 2017 12:26:42 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/post/libvirt-dns/</guid>
-      <description>&lt;p&gt;Here&amp;rsquo;s some short notes on how to configure DNS for libvirt managed VMs.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Create a libvirt network, and add the following to it&amp;rsquo;s XML:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;network&amp;gt;
-  ...
-  &amp;lt;domain name=&#39;my.domain.local&#39;/&amp;gt;
-  ...
-&amp;lt;/network&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Ensure the instance has DHCP_HOSTNAME set in network-scripts. I use virt-edit to do this:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;virt-edit \
-    -d $name \
-    /etc/sysconfig/network-scripts/ifcfg-eth0 \
-    -e &#39;s/^DHCP_HOSTNAME=.*/DHCP_HOSTNAME=&amp;quot;&#39;$name&#39;&amp;quot;/&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(above is taken from &lt;a href=&#34;https://gist.github.com/brk3/8d029adf03fbfcd5b69f473cea451355&#34;&gt;https://gist.github.com/brk3/8d029adf03fbfcd5b69f473cea451355&lt;/a&gt;)&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Ensure the gateway is available as a nameserver in /etc/resolv.conf:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;nameserver 192.168.4.1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That&amp;rsquo;s it, VMs should be pingable/contactable via their hostnames from the host.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>How to Hugo</title>
-      <link>https://brk3.github.io/post/how-to-hugo/</link>
-      <pubDate>Fri, 06 Jan 2017 17:15:03 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/post/how-to-hugo/</guid>
-      <description>&lt;p&gt;Here&amp;rsquo;s how to publish new posts on this blog using Hugo.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Install hugo (via apt or from &lt;a href=&#34;https://github.com/spf13/hugo/releases&#34;&gt;https://github.com/spf13/hugo/releases&lt;/a&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;apt install hugo
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Setup the repo&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git clone -b source git@github.com:brk3/brk3.github.io.git
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Create a new post&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;hugo new post/how-to-hugo.md
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Generate the site&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;hugo
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Commit&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git add .
-git commit -av
-
-git checkout master
-cp -r public/* .
-git add .
-git commit -am &amp;quot;Regenerate Site&amp;quot;
-
-git push --all
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>https://brk3.github.io/post/hello-world/</link>
-      <pubDate>Thu, 01 Dec 2016 14:13:31 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/post/hello-world/</guid>
-      <description>&lt;p&gt;Hello World!&lt;/p&gt;
 </description>
     </item>
     
