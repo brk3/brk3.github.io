@@ -7,6 +7,6 @@ theme = "nofancy"
 [author]
     name = "Paul Bourke"
     github = "brk3"
-    #linkedin = "YOUR LINKEDIN ID"
-    #gaID = "YOUR Google Analytics Tracking ID"
+    linkedin = "paul-bourke-0678052a"
+    gaID = "UA-37886611-1"
     twitter = "brk3"
