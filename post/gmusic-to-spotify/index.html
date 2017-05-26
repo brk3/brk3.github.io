@@ -3,8 +3,8 @@
 
   
   <meta charset="utf-8">
-  <title>Nested Xen</title>
-  <meta name="description" content="Nested Xen">
+  <title>Importing albums from Google Music to Spotify</title>
+  <meta name="description" content="Importing albums from Google Music to Spotify">
   <meta name="author" content="Paul Bourke">
 
   
@@ -101,7 +101,7 @@
 
             <div class="post-title">
                 <p class="footnote">
-                    <time class="">2017-01-18</time>
+                    <time class="">2017-05-26</time>
 		            
                     
                     |
@@ -109,84 +109,32 @@
                     
 
                     
-                    categories:<a href="https://brk3.github.io/categories/virtualisation">virtualisation</a> <a href="https://brk3.github.io/categories/openstack">openstack</a> <a href="https://brk3.github.io/categories/howto">howto</a> 
+                    categories:<a href="https://brk3.github.io/categories/howto">howto</a> 
                     
 
                     
                 </p>
-                <h1>Nested Xen</h1>
+                <h1>Importing albums from Google Music to Spotify</h1>
             </div>
 
             <div class="post-content">
-                
+                <p>I recently switched from Google Music to Spotify, and wanted to import all the various albums I&rsquo;ve
+added to my library over the years. As of writing all current methods I found didn&rsquo;t work,
+thankfully Spotify have a really nice API which makes this quite straight forward.  You can find the
+script I put together at <a href="https://github.com/brk3/gmusic-to-spotify">https://github.com/brk3/gmusic-to-spotify</a>, here&rsquo;s a quick overview how to
+use it.</p>
 
-<p>As part of efforts to more regularly test the Xen hypervisor with Nova as part of OpenStack
-development, I&rsquo;m spending some time figuring out how to virtualise Xen on Xen, specifically Oracle&rsquo;s
-<a href="https://www.oracle.com/virtualization/vm-server-for-x86/index.html">Oracle VM Server</a>.</p>
+<p>You need to acquire api keys (<a href="https://developer.spotify.com/my-applications/#!/applications">https://developer.spotify.com/my-applications/#!/applications</a>), and
+plug these in. Next you need to generate a simple csv key/value list of your albums in the form of
+&lsquo;artist, album&rsquo;. There is a very useful piece of javascript for this being maintained over at
+<a href="https://gist.github.com/jmiserez/c9a9a0f41e867e5ebb75">https://gist.github.com/jmiserez/c9a9a0f41e867e5ebb75</a>.</p>
 
-<p>In virtualisation terms the different levels of hypervisor are referred to as <em>LN</em>, where N is the
-<a href="https://wiki.xenproject.org/wiki/Nested_Virtualization_in_Xen#Introduction">nesting level</a>. In our setup, Oracle VM Server 3.4.2 (OVM-S) is running on baremetal as <em>L0</em>,
-another instance of OVM-S is running on that as <em>L1</em>, and the final OpenStack instantiated guest
-would be <em>L2</em>.</p>
+<p>After that you can let it run, if it finds multiple sources for an album (e.g. explicit vs. edited
+versions), it will list links to the albums that you can inspect before choosing which one to add.
+For large libraries this happens quite a bit, in my experience the first choice in the list is
+usually best.</p>
 
-<p>There are not so many blogs or up to date howtos in this area, so most of the below comes direct
-from the official <a href="https://xenbits.xen.org/docs/unstable/man/xl.cfg.5.html">Xen documentation</a>.</p>
-
-<p>Also, we&rsquo;re using the xenlight (xl) toolkit, as of yet I have not found how to enable the relevant
-parameters in libvirt to make nesting work.</p>
-
-<p>Starting from <em>L0</em>, here is an example <em>xl</em> guest config file:</p>
-
-<pre><code>builder = &quot;hvm&quot;
-name = &quot;example&quot;
-memory = 4096
-vcpus = 2
-vif = [ 'bridge=xenbr0' ]
-disk = [ 'format=raw, vdev=hda, access=rw, target=/root/disk.img', 'format=raw, vdev=hdc, access=ro, devtype=cdrom, target=/root/V789846-01.iso' ]
-vnc = 1
-vnclisten=&quot;0.0.0.0&quot;
-hap=1
-nestedhvm=1
-cpuid = ['0x1:ecx=0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx']
-
-</code></pre>
-
-<p>This is copied directly from <em>/etc/xen/xlexample.hvm</em>, with minor tweaks for disks and networking.
-The sample files are a good place to start as the above example will almost certainly be out of date
-in time.</p>
-
-<p>I&rsquo;m using bridged <a href="https://wiki.xenproject.org/wiki/Xen_Networking">networking</a>, <em>xenbr0</em> was created in the usual way with the hosts default
-interface added to it.</p>
-
-<p>The last three <a href="https://wiki.xenproject.org/wiki/Nested_Virtualization_in_Xen#Quick-start_guide">lines</a> are the important pieces, without these <em>L1</em> will fail to install with the
-following error:</p>
-
-<pre><code>libxl__domain_make domain creation fail: cannot make domain: -3
-</code></pre>
-
-<p>Once logged into <em>L1</em>, an image can be booted for <em>L2</em>. In an OpenStack environment Nova will be
-managing this step. To verify it&rsquo;s working however, we can boot Cirros in Xen using the following
-config:</p>
-
-<pre><code>builder = &quot;hvm&quot;
-name = &quot;example.hvm&quot;
-memory = 128
-vcpus = 2
-vif = [ 'xenbr0' ]
-disk = [ '/root/cirros.img,qcow2,xvda' ]
-vnc = 1
-vnclisten=&quot;0.0.0.0&quot;
-</code></pre>
-
-<h2 id="todo:48c662fdaa1dee96ee554c22f51e2376">TODO</h2>
-
-<p>I will continue to update this post in time as I make improvements to this process. In particular, I
-would like to solve the following:</p>
-
-<ul>
-<li>Set the required nesting params via libvirt, so that we aren&rsquo;t forced to use xl.</li>
-<li>Install using console rather than VNC.</li>
-</ul>
+<p>Hope it helps!</p>
 
             </div>
         </div>

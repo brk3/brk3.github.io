@@ -2,10 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Virtualisation on brk3.github.io</title>
-    <link>https://brk3.github.io/categories/virtualisation/index.xml</link>
+    <link>https://brk3.github.io/categories/virtualisation/</link>
     <description>Recent content in Virtualisation on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Wed, 18 Jan 2017 16:47:06 +0000</lastBuildDate>
     <atom:link href="https://brk3.github.io/categories/virtualisation/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -74,7 +75,7 @@ vnc = 1
 vnclisten=&amp;quot;0.0.0.0&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;todo&#34;&gt;TODO&lt;/h2&gt;
+&lt;h2 id=&#34;todo:48c662fdaa1dee96ee554c22f51e2376&#34;&gt;TODO&lt;/h2&gt;
 
 &lt;p&gt;I will continue to update this post in time as I make improvements to this process. In particular, I
 would like to solve the following:&lt;/p&gt;

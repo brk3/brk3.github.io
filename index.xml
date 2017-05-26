@@ -2,12 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>brk3.github.io</title>
-    <link>https://brk3.github.io/index.xml</link>
+    <link>https://brk3.github.io/</link>
     <description>Recent content on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 18 Jan 2017 16:47:06 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 May 2017 10:56:50 +0100</lastBuildDate>
     <atom:link href="https://brk3.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Importing albums from Google Music to Spotify</title>
+      <link>https://brk3.github.io/post/gmusic-to-spotify/</link>
+      <pubDate>Fri, 26 May 2017 10:56:50 +0100</pubDate>
+      
+      <guid>https://brk3.github.io/post/gmusic-to-spotify/</guid>
+      <description>&lt;p&gt;I recently switched from Google Music to Spotify, and wanted to import all the various albums I&amp;rsquo;ve
+added to my library over the years. As of writing all current methods I found didn&amp;rsquo;t work,
+thankfully Spotify have a really nice API which makes this quite straight forward.  You can find the
+script I put together at &lt;a href=&#34;https://github.com/brk3/gmusic-to-spotify&#34;&gt;https://github.com/brk3/gmusic-to-spotify&lt;/a&gt;, here&amp;rsquo;s a quick overview how to
+use it.&lt;/p&gt;
+
+&lt;p&gt;You need to acquire api keys (&lt;a href=&#34;https://developer.spotify.com/my-applications/#!/applications&#34;&gt;https://developer.spotify.com/my-applications/#!/applications&lt;/a&gt;), and
+plug these in. Next you need to generate a simple csv key/value list of your albums in the form of
+&amp;lsquo;artist, album&amp;rsquo;. There is a very useful piece of javascript for this being maintained over at
+&lt;a href=&#34;https://gist.github.com/jmiserez/c9a9a0f41e867e5ebb75&#34;&gt;https://gist.github.com/jmiserez/c9a9a0f41e867e5ebb75&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After that you can let it run, if it finds multiple sources for an album (e.g. explicit vs. edited
+versions), it will list links to the albums that you can inspect before choosing which one to add.
+For large libraries this happens quite a bit, in my experience the first choice in the list is
+usually best.&lt;/p&gt;
+
+&lt;p&gt;Hope it helps!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Nested Xen</title>
@@ -75,7 +101,7 @@ vnc = 1
 vnclisten=&amp;quot;0.0.0.0&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;todo&#34;&gt;TODO&lt;/h2&gt;
+&lt;h2 id=&#34;todo:48c662fdaa1dee96ee554c22f51e2376&#34;&gt;TODO&lt;/h2&gt;
 
 &lt;p&gt;I will continue to update this post in time as I make improvements to this process. In particular, I
 would like to solve the following:&lt;/p&gt;
