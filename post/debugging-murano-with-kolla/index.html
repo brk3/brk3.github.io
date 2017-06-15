@@ -3,8 +3,8 @@
 
   
   <meta charset="utf-8">
-  <title>Posts</title>
-  <meta name="description" content="Posts">
+  <title>Debugging Murano with Kolla</title>
+  <meta name="description" content="Debugging Murano with Kolla">
   <meta name="author" content="Paul Bourke">
 
   
@@ -94,154 +94,104 @@
 </div>
 
 
-
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	  <p class="posts-name">Posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/debugging-murano-with-kolla/">Debugging Murano with Kolla</a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">2017-06-15</time>
+		            
+                    
+                    |
+                    
+                    
 
-		  <p class="footnote">
-			submitted <time datetime="2017-06-15T16:31:32&#43;01:00" class="post-list timeago">2017-06-15T16:31:32&#43;01:00</time>
+                    
+                    categories:<a href="https://brk3.github.io/categories/openstack">openstack</a> 
+                    
 
-			
-			to
-			
+                    
+                </p>
+                <h1>Debugging Murano with Kolla</h1>
+            </div>
 
-			
+            <div class="post-content">
+                
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/openstack">openstack</a> ]
-			
+<p>The <a href="https://docs.openstack.org/developer/kolla-ansible/">kolla-ansible</a> project recently gained support for hacking on the
+OpenStack services it deploys, much the same as devstack.</p>
 
-			
+<p>Services are being added as we go, so it&rsquo;s unlikely all will be supported for
+the Pike release. That said it&rsquo;s quite easy to add support for new projects, so
+if the one you&rsquo;re interested in isn&rsquo;t there yet have a go!</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/gmusic-to-spotify/">Importing albums from Google Music to Spotify</a>
+<p>I&rsquo;ve been using this for the past month or so to submit patches into the Murano
+project, and wanted to give a short overview of how Kolla can be used to do
+this.</p>
 
-		  <p class="footnote">
-			submitted <time datetime="2017-05-26T10:56:50&#43;01:00" class="post-list timeago">2017-05-26T10:56:50&#43;01:00</time>
+<h2 id="enabling:2c6acdd5c270f9048077d9f7334ad58e">Enabling</h2>
 
-			
-			to
-			
+<p>Start by enabling dev mode for the project(s) you&rsquo;re interested in within
+/etc/kolla/globals.yml:</p>
 
-			
+<pre><code>murano_dev_mode: true
+</code></pre>
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
+<p>Then either deploy the project:</p>
 
-			
+<pre><code>kolla-ansible deploy --tags murano
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/nested-hvm-xen/">Nested Xen</a>
+<p>or reconfigure it if it&rsquo;s already been deployed:</p>
 
-		  <p class="footnote">
-			submitted <time datetime="2017-01-18T16:47:06Z" class="post-list timeago">2017-01-18T16:47:06Z</time>
+<pre><code>kolla-ansible reconfigure --tags murano
+</code></pre>
 
-			
-			to
-			
+<p>Kolla will clone the source code for the project under <em>&rsquo;/opt/stack&rsquo;</em>, and bind
+mount it into the container. The benefit of this is that you can use local
+development tools, your favorite editor, etc. right from the node instead of
+having to install them all into the container. Also if the container happens to
+go into an error state or gets destroyed you don&rsquo;t lose your changes.</p>
 
-			
+<h2 id="debugging:2c6acdd5c270f9048077d9f7334ad58e">Debugging</h2>
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/virtualisation">virtualisation</a> <a href="https://brk3.github.io/categories/openstack">openstack</a> <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
+<p>Working on the code is as easy as making some changes to the local code, and
+restarting the container. Logs are available under
+<em>&rsquo;/var/lib/docker/volumes/kolla_logs/_data/murano&rsquo;</em>, and can be
+tailed/grepped from a separate terminal.</p>
 
-			
+<p>To actually debug the code, I&rsquo;ve found <a href="https://pypi.python.org/pypi/remote-pdb">remote_pdb</a> to be very effective.
+We currently don&rsquo;t include this in the Docker images but it can be installed
+easily:</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/libvirt-dns/">Libvirt DNS</a>
+<pre><code>docker exec -it -u root murano_api pip install remote_pdb
+</code></pre>
 
-		  <p class="footnote">
-			submitted <time datetime="2017-01-09T12:26:42Z" class="post-list timeago">2017-01-09T12:26:42Z</time>
+<p>Set a break point as follows:</p>
 
-			
-			to
-			
+<pre><code>from remote_pdb import RemotePdb
+RemotePdb('127.0.0.1', 4444).set_trace()
+</code></pre>
 
-			
+<p>Restart the container, and attach to pdb using:</p>
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
+<pre><code>socat readline tcp:127.0.0.1:4444
+</code></pre>
 
-			
+<h2 id="summary:2c6acdd5c270f9048077d9f7334ad58e">Summary</h2>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/how-to-hugo/">How to Hugo</a>
+<p>One of the best things about using Kolla is it&rsquo;s &ldquo;don&rsquo;t touch the host where at
+all possible&rdquo; mantra. This is one area where I find it really surpasses
+devstack, as deploys can quickly be torn down with confidence that nothing will
+be left behind. This leads to more repeatable patches, testing, and less &ldquo;works
+on my machine&rdquo; code.</p>
 
-		  <p class="footnote">
-			submitted <time datetime="2017-01-06T17:15:03Z" class="post-list timeago">2017-01-06T17:15:03Z</time>
+<p>Give it a try, and feel free to ask questions in <a href="https://kiwiirc.com/client/irc.freenode.net/#openstack-kolla">#openstack-kolla</a> on freenode.</p>
 
-			
-			to
-			
-
-			
-
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/hello-world/">Hello World</a>
-
-		  <p class="footnote">
-			submitted <time datetime="2016-12-01T14:13:31Z" class="post-list timeago">2016-12-01T14:13:31Z</time>
-
-			
-			to
-			
-
-			
-
-			
-			categories:[ <a href="https://brk3.github.io/categories/misc">misc</a> ]
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-	  </ul>
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>

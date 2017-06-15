@@ -6,8 +6,88 @@
     <description>Recent content in Posts on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 26 May 2017 10:56:50 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 15 Jun 2017 16:31:32 +0100</lastBuildDate>
     <atom:link href="https://brk3.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Debugging Murano with Kolla</title>
+      <link>https://brk3.github.io/post/debugging-murano-with-kolla/</link>
+      <pubDate>Thu, 15 Jun 2017 16:31:32 +0100</pubDate>
+      
+      <guid>https://brk3.github.io/post/debugging-murano-with-kolla/</guid>
+      <description>
+
+&lt;p&gt;The &lt;a href=&#34;https://docs.openstack.org/developer/kolla-ansible/&#34;&gt;kolla-ansible&lt;/a&gt; project recently gained support for hacking on the
+OpenStack services it deploys, much the same as devstack.&lt;/p&gt;
+
+&lt;p&gt;Services are being added as we go, so it&amp;rsquo;s unlikely all will be supported for
+the Pike release. That said it&amp;rsquo;s quite easy to add support for new projects, so
+if the one you&amp;rsquo;re interested in isn&amp;rsquo;t there yet have a go!&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been using this for the past month or so to submit patches into the Murano
+project, and wanted to give a short overview of how Kolla can be used to do
+this.&lt;/p&gt;
+
+&lt;h2 id=&#34;enabling:2c6acdd5c270f9048077d9f7334ad58e&#34;&gt;Enabling&lt;/h2&gt;
+
+&lt;p&gt;Start by enabling dev mode for the project(s) you&amp;rsquo;re interested in within
+/etc/kolla/globals.yml:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;murano_dev_mode: true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then either deploy the project:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;kolla-ansible deploy --tags murano
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or reconfigure it if it&amp;rsquo;s already been deployed:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;kolla-ansible reconfigure --tags murano
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Kolla will clone the source code for the project under &lt;em&gt;&amp;rsquo;/opt/stack&amp;rsquo;&lt;/em&gt;, and bind
+mount it into the container. The benefit of this is that you can use local
+development tools, your favorite editor, etc. right from the node instead of
+having to install them all into the container. Also if the container happens to
+go into an error state or gets destroyed you don&amp;rsquo;t lose your changes.&lt;/p&gt;
+
+&lt;h2 id=&#34;debugging:2c6acdd5c270f9048077d9f7334ad58e&#34;&gt;Debugging&lt;/h2&gt;
+
+&lt;p&gt;Working on the code is as easy as making some changes to the local code, and
+restarting the container. Logs are available under
+&lt;em&gt;&amp;rsquo;/var/lib/docker/volumes/kolla_logs/_data/murano&amp;rsquo;&lt;/em&gt;, and can be
+tailed/grepped from a separate terminal.&lt;/p&gt;
+
+&lt;p&gt;To actually debug the code, I&amp;rsquo;ve found &lt;a href=&#34;https://pypi.python.org/pypi/remote-pdb&#34;&gt;remote_pdb&lt;/a&gt; to be very effective.
+We currently don&amp;rsquo;t include this in the Docker images but it can be installed
+easily:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;docker exec -it -u root murano_api pip install remote_pdb
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Set a break point as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;from remote_pdb import RemotePdb
+RemotePdb(&#39;127.0.0.1&#39;, 4444).set_trace()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Restart the container, and attach to pdb using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;socat readline tcp:127.0.0.1:4444
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;summary:2c6acdd5c270f9048077d9f7334ad58e&#34;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;One of the best things about using Kolla is it&amp;rsquo;s &amp;ldquo;don&amp;rsquo;t touch the host where at
+all possible&amp;rdquo; mantra. This is one area where I find it really surpasses
+devstack, as deploys can quickly be torn down with confidence that nothing will
+be left behind. This leads to more repeatable patches, testing, and less &amp;ldquo;works
+on my machine&amp;rdquo; code.&lt;/p&gt;
+
+&lt;p&gt;Give it a try, and feel free to ask questions in &lt;a href=&#34;https://kiwiirc.com/client/irc.freenode.net/#openstack-kolla&#34;&gt;#openstack-kolla&lt;/a&gt; on freenode.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Importing albums from Google Music to Spotify</title>
