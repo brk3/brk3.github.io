@@ -89,8 +89,8 @@ vbmc start --libvirt-uri=qemu:///session virtual-baremetal
 
 &lt;h1 id=&#34;deploy:337966a27f8743d0b7f2496ccfc5b2aa&#34;&gt;Deploy&lt;/h1&gt;
 
-&lt;p&gt;At this point you can follow the standard Ironic steps as outlined in the Kolla documentation&lt;a href=&#34;https://docs.openstack.org/kolla-ansible/latest/reference/ironic-guide.html&#34;&gt;1&lt;/a&gt; to
-create kernel/ramdisk images, associate a port, and finally boot the baremetal node.&lt;/p&gt;
+&lt;p&gt;At this point you can follow the standard Ironic steps as outlined in the Kolla &lt;a href=&#34;https://docs.openstack.org/kolla-ansible/latest/reference/ironic-guide.html&#34;&gt;documentation&lt;/a&gt;
+to create kernel/ramdisk images, associate a port, and finally boot the baremetal node.&lt;/p&gt;
 </description>
     </item>
     
