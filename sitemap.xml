@@ -3,8 +3,13 @@
   
   <url>
     <loc>https://brk3.github.io/</loc>
-    <lastmod>2017-06-15T16:31:32+01:00</lastmod>
+    <lastmod>2018-04-19T12:46:12+01:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://brk3.github.io/post/kolla-ironic-libvirt/</loc>
+    <lastmod>2018-04-19T12:46:12+01:00</lastmod>
   </url>
   
   <url>

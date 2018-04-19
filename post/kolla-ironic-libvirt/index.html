@@ -3,8 +3,8 @@
 
   
   <meta charset="utf-8">
-  <title>brk3.github.io</title>
-  <meta name="description" content="brk3.github.io">
+  <title>Deploying virtual baremetal with Ironic &amp; Kolla</title>
+  <meta name="description" content="Deploying virtual baremetal with Ironic &amp; Kolla">
   <meta name="author" content="Paul Bourke">
 
   
@@ -97,173 +97,106 @@
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
 	<div class="pure-u-11-12 pure-u-md-5-8">
-	  <p class="posts-name">Recent posts:</p>
+        <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/kolla-ironic-libvirt/">Deploying virtual baremetal with Ironic &amp; Kolla</a>
+            <div class="post-title">
+                <p class="footnote">
+                    <time class="">2018-04-19</time>
+		            
+                    
+                    |
+                    
+                    
 
-		  <p class="footnote">
-			submitted <time datetime="2018-04-19T12:46:12&#43;01:00" class="post-list timeago">2018-04-19T12:46:12&#43;01:00</time>
+                    
+                    categories:<a href="https://brk3.github.io/categories/virtualisation">virtualisation</a> <a href="https://brk3.github.io/categories/openstack">openstack</a> <a href="https://brk3.github.io/categories/howto">howto</a> 
+                    
 
-			
-			to
-			
+                    
+                </p>
+                <h1>Deploying virtual baremetal with Ironic &amp; Kolla</h1>
+            </div>
 
-			
+            <div class="post-content">
+                
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/virtualisation">virtualisation</a> <a href="https://brk3.github.io/categories/openstack">openstack</a> <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
+<p>A common barrier to entry when looking to try out OpenStack Ironic is that you need a baremetal
+machine to use with it. It turns out that it is possible to use a virtual machine in lieu of
+baremetal, and this is exactly what tools such as devstack and tripleo allow for.
+This guide details how the same setup can be done using Kolla. Given the complexity of Ironic and
+the variety of configurations possible, almost every step will have a multitude of variations and
+possibilities, I just detail what worked for me.</p>
 
-			
+<h1 id="setup:337966a27f8743d0b7f2496ccfc5b2aa">Setup</h1>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/debugging-murano-with-kolla/">Debugging Murano with Kolla</a>
+<h2 id="libvirt:337966a27f8743d0b7f2496ccfc5b2aa">libvirt</h2>
 
-		  <p class="footnote">
-			submitted <time datetime="2017-06-15T16:31:32&#43;01:00" class="post-list timeago">2017-06-15T16:31:32&#43;01:00</time>
+<p>My host node is using the default libvirt network, which is 192.168.0.0/24. Attached to virbr0, I
+have the standard set of nodes required to deploy a multinode OpenStack using Kolla. In addition, I
+have created an extra guest to act as the baremetal, named &lsquo;virtual-baremetal&rsquo;. There&rsquo;s nothing
+special about the VM but the XML is posted <a href="https://gist.github.com/brk3/7fbb76f727de6bf7faeb2be1c1c5766f">here</a> for reference.</p>
 
-			
-			to
-			
+<pre><code>$ virsh list
+ Id    Name                  State
+------------------------------------
+ 95    operator              running
+ 96    control01             running
+ 97    control02             running
+ 98    control03             running
+ 101   network01             running
+ 102   network02             running
+ 103   compute01             running
+ 104   compute02             running
+ 105   storage01             running
+ 106   storage02             running
+ 123   storage03             running
+ 128   virtual-baremetal     shut off
+</code></pre>
 
-			
+<p>Each node has 4 NICs, I also grabbed the following snippet from the Ironic devstack scripts to allow
+VNC access to the console:</p>
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/openstack">openstack</a> ]
-			
+<pre><code>&lt;graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0'&gt;
+  &lt;listen type='address' address='0.0.0.0'/&gt;
+&lt;/graphics&gt;
+&lt;video&gt;
+  &lt;model type='cirrus' vram='16384' heads='1' primary='yes'/&gt;
+  &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/&gt;
+&lt;/video&gt;
+</code></pre>
 
-			
+<p>This proved to be valuable when debugging as the PXE boot process doesn&rsquo;t appear to attach to the
+same console as exposed by &lsquo;virsh console&rsquo;.</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/gmusic-to-spotify/">Importing albums from Google Music to Spotify</a>
+<p>Because I&rsquo;m using flat networking, I needed to disable DHCP from the libvirt network to prevent it
+from trying to intercept boot requests from the Ironic target. To do this you can either remove the
+&lt;dhcp&gt; element from the network XML, or in my case, I just killed the libvirt managed dnsmasq
+processes completely and ran my own for extra control.</p>
 
-		  <p class="footnote">
-			submitted <time datetime="2017-05-26T10:56:50&#43;01:00" class="post-list timeago">2017-05-26T10:56:50&#43;01:00</time>
+<h2 id="vbmc:337966a27f8743d0b7f2496ccfc5b2aa">vbmc</h2>
 
-			
-			to
-			
+<p>On the host node we need to setup a virtual baseboard management controller (BMC) to allow Ironic to
+control the node. This can be accomplished using vbmc:</p>
 
-			
+<pre><code>yum install python-pip python-devel libvirt-devel gcc
+pip install virtualbmc
+vbmc add virtual-baremetal --port 6230 --username admin --password password --address 0.0.0.0
+vbmc start --libvirt-uri=qemu:///session virtual-baremetal
+</code></pre>
 
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
+<p>You can use ipmitool to verify it&rsquo;s working:</p>
 
-			
+<pre><code>ipmitool -I lanplus -H &lt;host node ip&gt; -L ADMINISTRATOR -p 6230 \
+  -U admin -R 12 -N 5 -P password power status
+</code></pre>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/nested-hvm-xen/">Nested Xen</a>
+<h1 id="deploy:337966a27f8743d0b7f2496ccfc5b2aa">Deploy</h1>
 
-		  <p class="footnote">
-			submitted <time datetime="2017-01-18T16:47:06Z" class="post-list timeago">2017-01-18T16:47:06Z</time>
+<p>At this point you can follow the standard Ironic steps as outlined in the Kolla documentation<a href="https://docs.openstack.org/kolla-ansible/latest/reference/ironic-guide.html">1</a> to
+create kernel/ramdisk images, associate a port, and finally boot the baremetal node.</p>
 
-			
-			to
-			
-
-			
-
-			
-			categories:[ <a href="https://brk3.github.io/categories/virtualisation">virtualisation</a> <a href="https://brk3.github.io/categories/openstack">openstack</a> <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/libvirt-dns/">Libvirt DNS</a>
-
-		  <p class="footnote">
-			submitted <time datetime="2017-01-09T12:26:42Z" class="post-list timeago">2017-01-09T12:26:42Z</time>
-
-			
-			to
-			
-
-			
-
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/how-to-hugo/">How to Hugo</a>
-
-		  <p class="footnote">
-			submitted <time datetime="2017-01-06T17:15:03Z" class="post-list timeago">2017-01-06T17:15:03Z</time>
-
-			
-			to
-			
-
-			
-
-			
-			categories:[ <a href="https://brk3.github.io/categories/howto">howto</a> ]
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  <a href="https://brk3.github.io/post/hello-world/">Hello World</a>
-
-		  <p class="footnote">
-			submitted <time datetime="2016-12-01T14:13:31Z" class="post-list timeago">2016-12-01T14:13:31Z</time>
-
-			
-			to
-			
-
-			
-
-			
-			categories:[ <a href="https://brk3.github.io/categories/misc">misc</a> ]
-			
-
-			
-
-		  </p>
-		</li>
-		
-		
-	  </ul>
+            </div>
+        </div>
 	</div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
