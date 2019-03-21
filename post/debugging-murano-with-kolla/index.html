@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
   
   <meta charset="utf-8">
-  <title>Debugging Murano with Kolla</title>
+  <title>Debugging Murano with Kolla - brk3.github.io</title>
   <meta name="description" content="Debugging Murano with Kolla">
   <meta name="author" content="Paul Bourke">
 
@@ -15,11 +16,11 @@
   <link rel="stylesheet" href="https://brk3.github.io/css/fonts.css">
   
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.1/build/pure-min.css" integrity="sha384-CCTZv2q9I9m3UOxRLaJneXrrqKwUNOzZ6NGEUMwHtShDJ+nCoiXJCAgi05KfkLGY" crossorigin="anonymous">
   
-
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
-
+  
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.1/build/grids-responsive-min.css">
+  
   <link rel="stylesheet" href="https://brk3.github.io/css/custom.css">
 
   
@@ -29,9 +30,10 @@
   <script src="https://brk3.github.io/highlight/highlight.pack.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
+  <meta name="generator" content="Hugo 0.40.1" />
+  
 </head>
 <body>
-
 
 <div class="header pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
@@ -40,25 +42,9 @@
             
             <a href="https://brk3.github.io/" class="site-title pure-menu-heading">brk3.github.io</a>
             <ul class="pure-menu-list">
-                
+				
                 <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/categories/howto" class="pure-menu-link">Howto</a>
-                </li>
-                
-                <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/categories/misc" class="pure-menu-link">Misc</a>
-                </li>
-                
-                <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/categories/openstack" class="pure-menu-link">Openstack</a>
-                </li>
-                
-                <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/categories/virtualisation" class="pure-menu-link">Virtualisation</a>
-                </li>
-                
-                <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/about/" class="pure-menu-link">About</a>
+                    <a href="https://brk3.github.io/about/" class="pure-menu-link"></a>
                 </li>
             </ul>
         </div>
@@ -67,23 +53,7 @@
             <a href="#" id="toggle-btn">&#9776;</a>
             <ul class="pure-menu-list" id="toggle-content" style="display:none;">
                 
-                
-                <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/categories/howto" class="pure-menu-link">Howto</a>
-                </li>
-                
-                <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/categories/misc" class="pure-menu-link">Misc</a>
-                </li>
-                
-                <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/categories/openstack" class="pure-menu-link">Openstack</a>
-                </li>
-                
-                <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/categories/virtualisation" class="pure-menu-link">Virtualisation</a>
-                </li>
-                
+				
                 <li class="pure-menu-item">
                     <a href="https://brk3.github.io/about" class="pure-menu-link">About</a>
                 </li>
@@ -131,7 +101,7 @@ if the one you&rsquo;re interested in isn&rsquo;t there yet have a go!</p>
 project, and wanted to give a short overview of how Kolla can be used to do
 this.</p>
 
-<h2 id="enabling:2c6acdd5c270f9048077d9f7334ad58e">Enabling</h2>
+<h2 id="enabling">Enabling</h2>
 
 <p>Start by enabling dev mode for the project(s) you&rsquo;re interested in within
 /etc/kolla/globals.yml:</p>
@@ -155,7 +125,7 @@ development tools, your favorite editor, etc. right from the node instead of
 having to install them all into the container. Also if the container happens to
 go into an error state or gets destroyed you don&rsquo;t lose your changes.</p>
 
-<h2 id="debugging:2c6acdd5c270f9048077d9f7334ad58e">Debugging</h2>
+<h2 id="debugging">Debugging</h2>
 
 <p>Working on the code is as easy as making some changes to the local code, and
 restarting the container. Logs are available under
@@ -180,7 +150,7 @@ RemotePdb('127.0.0.1', 4444).set_trace()
 <pre><code>socat readline tcp:127.0.0.1:4444
 </code></pre>
 
-<h2 id="summary:2c6acdd5c270f9048077d9f7334ad58e">Summary</h2>
+<h2 id="summary">Summary</h2>
 
 <p>One of the best things about using Kolla is it&rsquo;s &ldquo;don&rsquo;t touch the host where at
 all possible&rdquo; mantra. This is one area where I find it really surpasses
@@ -199,35 +169,36 @@ on my machine&rdquo; code.</p>
 <div class="footer pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
     <div class="pure-u-11-12 pure-u-md-5-8">
-        <div class="pure-menu pure-menu-horizontal footer-content">
-            <ul>
-                <li class="pure-menu-heading" id="foot-name">Paul Bourke:</li>
-
-                
-
-                
-                <li class="pure-menu-item">
-                    <a href="https://github.com/brk3" class="pure-menu-link">GitHub</a>
-                </li>
-                
-
-                
-                <li class="pure-menu-item">
-                    <a href="https://www.linkedin.com/in/paul-bourke-0678052a" class="pure-menu-link">LinkedIn</a>
-                </li>
-                
-
-                
-
-                
-                <li class="pure-menu-item">
-                    <a href="https://twitter.com/brk3" class="pure-menu-link">Twitter</a>
-                </li>
-                
-
-            </ul>
-            <a href="#" class="pure-menu-heading pull-right" id="gototop-btn">↑↑</a>
-        </div>
+        <div class="footer-content">
+		  <div class="pure-menu pure-menu-horizontal">
+              <ul>
+			      
+                  <li class="pure-menu-heading" id="foot-name">Paul Bourke:</li>
+                  
+				  
+                  
+          
+                  
+                  <li class="pure-menu-item">
+                      <a href="https://github.com/brk3" class="pure-menu-link">GitHub</a>
+                  </li>
+                  
+          
+                  
+                  <li class="pure-menu-item">
+                      <a href="https://www.linkedin.com/in/paul-bourke-0678052a" class="pure-menu-link">LinkedIn</a>
+                  </li>
+                  
+          
+                  
+          
+                  
+          
+              </ul>
+              <a href="#" class="pure-menu-heading pull-right" id="gototop-btn">↑↑</a>
+          </div>
+		  
+		</div>
 	  </div>
       <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>

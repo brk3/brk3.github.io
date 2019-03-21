@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes on brk3.github.io</title>
+    <link>https://brk3.github.io/categories/kubernetes/</link>
+    <description>Recent content in Kubernetes on brk3.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 21 Mar 2019 12:01:43 +0000</lastBuildDate>
+    
+	<atom:link href="https://brk3.github.io/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to replace coredns with kube-dns</title>
+      <link>https://brk3.github.io/post/kubeadm-dns/</link>
+      <pubDate>Thu, 21 Mar 2019 12:01:43 +0000</pubDate>
+      
+      <guid>https://brk3.github.io/post/kubeadm-dns/</guid>
+      <description>CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to kube-dns for some testing, and it wasn&amp;rsquo;t obvious from the documentation how to do that. Here&amp;rsquo;s how I went about it for reference.
+These steps assume kubeadm 1.13.
+Steps First, initialise the master node, skipping the coredns addon phase:
+kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns  Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:</description>
+    </item>
+    
+  </channel>
+</rss>
