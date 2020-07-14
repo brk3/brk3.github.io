@@ -6,21 +6,10 @@
     <description>Recent content in notes on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Jul 2020 11:56:01 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 Mar 2019 12:01:43 +0000</lastBuildDate>
     
 	<atom:link href="https://brk3.github.io/categories/notes/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Using Python Poetry with AWS Codeartifact</title>
-      <link>https://brk3.github.io/post/poetry-codeartifact/</link>
-      <pubDate>Tue, 14 Jul 2020 11:56:01 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/post/poetry-codeartifact/</guid>
-      <description>Python Poetry is a really nice tool I&amp;rsquo;ve been using lately to simplfy the pain that is packaging in Python.
-I had some issues getting it to publish to a CodeArtifact repository in AWS; the URL shown in the console for pypi based setups was resulting in the following error:
-$ poetry publish -r myrepo -u aws -p $CODEARTIFACT_AUTH_TOKEN Publishing hello-world (0.1.0) to myrepo - Uploading hello-world-0.1.0.tar.gz 100% [UploadError] HTTP Error 404: Not Found However, if you take the URL from the CodeArtifact console for twine it will work just fine.</description>
-    </item>
     
     <item>
       <title>How to replace coredns with kube-dns</title>
