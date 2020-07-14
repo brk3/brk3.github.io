@@ -24,24 +24,17 @@ git clone -b source git@github.com:brk3/brk3.github.io.git
 
 ```bash
 hugo new post/how-to-hugo.md
+<edit>
+git commit -av
 ```
 
-* Generate the site
+* Republish the site
 
 ```bash
 hugo
-```
-
-* Commit
-
-```bash
-git add .
-git commit -av
-
 git checkout master
 cp -r public/* .
 git add .
 git commit -am "Regenerate Site"
-
 git push --all
 ```
