@@ -30,7 +30,7 @@
   <script src="https://brk3.github.io/highlight/highlight.pack.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
-  <meta name="generator" content="Hugo 0.40.1" />
+  <meta name="generator" content="Hugo 0.74.1" />
   
 </head>
 <body>
@@ -44,7 +44,7 @@
             <ul class="pure-menu-list">
 				
                 <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/about/" class="pure-menu-link"></a>
+                    <a href="https://brk3.github.io/about/" class="pure-menu-link">About</a>
                 </li>
             </ul>
         </div>
@@ -62,7 +62,6 @@
     </div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
-
 
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
@@ -88,25 +87,18 @@
             </div>
 
             <div class="post-content">
-                
-
-<p>As part of efforts to more regularly test the Xen hypervisor with Nova as part of OpenStack
+                <p>As part of efforts to more regularly test the Xen hypervisor with Nova as part of OpenStack
 development, I&rsquo;m spending some time figuring out how to virtualise Xen on Xen, specifically Oracle&rsquo;s
 <a href="https://www.oracle.com/virtualization/vm-server-for-x86/index.html">Oracle VM Server</a>.</p>
-
 <p>In virtualisation terms the different levels of hypervisor are referred to as <em>LN</em>, where N is the
 <a href="https://wiki.xenproject.org/wiki/Nested_Virtualization_in_Xen#Introduction">nesting level</a>. In our setup, Oracle VM Server 3.4.2 (OVM-S) is running on baremetal as <em>L0</em>,
 another instance of OVM-S is running on that as <em>L1</em>, and the final OpenStack instantiated guest
 would be <em>L2</em>.</p>
-
 <p>There are not so many blogs or up to date howtos in this area, so most of the below comes direct
 from the official <a href="https://xenbits.xen.org/docs/unstable/man/xl.cfg.5.html">Xen documentation</a>.</p>
-
 <p>Also, we&rsquo;re using the xenlight (xl) toolkit, as of yet I have not found how to enable the relevant
 parameters in libvirt to make nesting work.</p>
-
 <p>Starting from <em>L0</em>, here is an example <em>xl</em> guest config file:</p>
-
 <pre><code>builder = &quot;hvm&quot;
 name = &quot;example&quot;
 memory = 4096
@@ -119,25 +111,17 @@ hap=1
 nestedhvm=1
 cpuid = ['0x1:ecx=0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx']
 
-</code></pre>
-
-<p>This is copied directly from <em>/etc/xen/xlexample.hvm</em>, with minor tweaks for disks and networking.
+</code></pre><p>This is copied directly from <em>/etc/xen/xlexample.hvm</em>, with minor tweaks for disks and networking.
 The sample files are a good place to start as the above example will almost certainly be out of date
 in time.</p>
-
 <p>I&rsquo;m using bridged <a href="https://wiki.xenproject.org/wiki/Xen_Networking">networking</a>, <em>xenbr0</em> was created in the usual way with the hosts default
 interface added to it.</p>
-
 <p>The last three <a href="https://wiki.xenproject.org/wiki/Nested_Virtualization_in_Xen#Quick-start_guide">lines</a> are the important pieces, without these <em>L1</em> will fail to install with the
 following error:</p>
-
 <pre><code>libxl__domain_make domain creation fail: cannot make domain: -3
-</code></pre>
-
-<p>Once logged into <em>L1</em>, an image can be booted for <em>L2</em>. In an OpenStack environment Nova will be
+</code></pre><p>Once logged into <em>L1</em>, an image can be booted for <em>L2</em>. In an OpenStack environment Nova will be
 managing this step. To verify it&rsquo;s working however, we can boot Cirros in Xen using the following
 config:</p>
-
 <pre><code>builder = &quot;hvm&quot;
 name = &quot;example.hvm&quot;
 memory = 128
@@ -146,13 +130,9 @@ vif = [ 'xenbr0' ]
 disk = [ '/root/cirros.img,qcow2,xvda' ]
 vnc = 1
 vnclisten=&quot;0.0.0.0&quot;
-</code></pre>
-
-<h2 id="todo">TODO</h2>
-
+</code></pre><h2 id="todo">TODO</h2>
 <p>I will continue to update this post in time as I make improvements to this process. In particular, I
 would like to solve the following:</p>
-
 <ul>
 <li>Set the required nesting params via libvirt, so that we aren&rsquo;t forced to use xl.</li>
 <li>Install using console rather than VNC.</li>

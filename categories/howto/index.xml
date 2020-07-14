@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Howto on brk3.github.io</title>
+    <title>howto on brk3.github.io</title>
     <link>https://brk3.github.io/categories/howto/</link>
-    <description>Recent content in Howto on brk3.github.io</description>
+    <description>Recent content in howto on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 19 Apr 2018 12:46:12 +0100</lastBuildDate>
@@ -47,7 +47,7 @@ In virtualisation terms the different levels of hypervisor are referred to as LN
       
       <guid>https://brk3.github.io/post/libvirt-dns/</guid>
       <description>Here&amp;rsquo;s some short notes on how to configure DNS for libvirt managed VMs.
- Create a libvirt network, and add the following to it&amp;rsquo;s XML:  &amp;lt;network&amp;gt; ... &amp;lt;domain name=&#39;my.domain.local&#39;/&amp;gt; ... &amp;lt;/network&amp;gt;   Ensure the instance has DHCP_HOSTNAME set in network-scripts. I use virt-edit to do this:  virt-edit \ -d $name \ /etc/sysconfig/network-scripts/ifcfg-eth0 \ -e &#39;s/^DHCP_HOSTNAME=.*/DHCP_HOSTNAME=&amp;quot;&#39;$name&#39;&amp;quot;/&#39;  (above is taken from https://gist.github.com/brk3/8d029adf03fbfcd5b69f473cea451355)
+ Create a libvirt network, and add the following to it&amp;rsquo;s XML:  &amp;lt;network&amp;gt; ... &amp;lt;domain name=&amp;#39;my.domain.local&amp;#39;/&amp;gt; ... &amp;lt;/network&amp;gt;  Ensure the instance has DHCP_HOSTNAME set in network-scripts. I use virt-edit to do this:  virt-edit \  -d $name \  /etc/sysconfig/network-scripts/ifcfg-eth0 \  -e &amp;#39;s/^DHCP_HOSTNAME=.*/DHCP_HOSTNAME=&amp;#34;&amp;#39;$name&amp;#39;&amp;#34;/&amp;#39; (above is taken from https://gist.github.com/brk3/8d029adf03fbfcd5b69f473cea451355)
  Ensure the gateway is available as a nameserver in /etc/resolv.</description>
     </item>
     
@@ -58,7 +58,7 @@ In virtualisation terms the different levels of hypervisor are referred to as LN
       
       <guid>https://brk3.github.io/post/how-to-hugo/</guid>
       <description>Here&amp;rsquo;s how to publish new posts on this blog using Hugo.
- Install hugo (via apt or from https://github.com/spf13/hugo/releases)  apt install hugo   Setup the repo  git clone -b source git@github.com:brk3/brk3.github.io.git   Create a new post  hugo new post/how-to-hugo.md   Generate the site  hugo   Commit  git add . git commit -av git checkout master cp -r public/* . git add .</description>
+ Install hugo (via apt or from https://github.com/spf13/hugo/releases)  apt install hugo  Setup the repo  git clone -b source git@github.com:brk3/brk3.github.io.git  Create a new post  hugo new post/how-to-hugo.md  Generate the site  hugo  Commit  git add . git commit -av git checkout master cp -r public/* . git add . git commit -am &amp;#34;Regenerate Site&amp;#34; git push --all </description>
     </item>
     
   </channel>

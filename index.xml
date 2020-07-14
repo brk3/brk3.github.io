@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>brk3.github.io</title>
@@ -6,10 +6,21 @@
     <description>Recent content on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 21 Mar 2019 12:01:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2020 11:56:01 +0000</lastBuildDate>
     
 	<atom:link href="https://brk3.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Using Python Poetry with AWS Codeartifact</title>
+      <link>https://brk3.github.io/post/poetry-codeartifact/</link>
+      <pubDate>Tue, 14 Jul 2020 11:56:01 +0000</pubDate>
+      
+      <guid>https://brk3.github.io/post/poetry-codeartifact/</guid>
+      <description>Python Poetry0 is a really nice tool I&amp;rsquo;ve been using lately to simplfy the pain that is packaging in Python.
+I had some issues getting it to publish to a CodeArtifact repository in AWS; the URL shown in the console for pypi based setups was resulting in the following error:
+$ poetry publish -r myrepo -u aws -p $CODEARTIFACT_AUTH_TOKEN Publishing hello-world (0.1.0) to myrepo - Uploading hello-world-0.1.0.tar.gz 100% [UploadError] HTTP Error 404: Not Found However, if you take the URL from the CodeArtifact console for twine1 it will work just fine.</description>
+    </item>
     
     <item>
       <title>How to replace coredns with kube-dns</title>
@@ -20,7 +31,7 @@
       <description>CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to kube-dns for some testing, and it wasn&amp;rsquo;t obvious from the documentation how to do that. Here&amp;rsquo;s how I went about it for reference.
 These steps assume kubeadm 1.13.
 Steps First, initialise the master node, skipping the coredns addon phase:
-kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns  Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:</description>
+kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:</description>
     </item>
     
     <item>
@@ -70,7 +81,7 @@ In virtualisation terms the different levels of hypervisor are referred to as LN
       
       <guid>https://brk3.github.io/post/libvirt-dns/</guid>
       <description>Here&amp;rsquo;s some short notes on how to configure DNS for libvirt managed VMs.
- Create a libvirt network, and add the following to it&amp;rsquo;s XML:  &amp;lt;network&amp;gt; ... &amp;lt;domain name=&#39;my.domain.local&#39;/&amp;gt; ... &amp;lt;/network&amp;gt;   Ensure the instance has DHCP_HOSTNAME set in network-scripts. I use virt-edit to do this:  virt-edit \ -d $name \ /etc/sysconfig/network-scripts/ifcfg-eth0 \ -e &#39;s/^DHCP_HOSTNAME=.*/DHCP_HOSTNAME=&amp;quot;&#39;$name&#39;&amp;quot;/&#39;  (above is taken from https://gist.github.com/brk3/8d029adf03fbfcd5b69f473cea451355)
+ Create a libvirt network, and add the following to it&amp;rsquo;s XML:  &amp;lt;network&amp;gt; ... &amp;lt;domain name=&amp;#39;my.domain.local&amp;#39;/&amp;gt; ... &amp;lt;/network&amp;gt;  Ensure the instance has DHCP_HOSTNAME set in network-scripts. I use virt-edit to do this:  virt-edit \  -d $name \  /etc/sysconfig/network-scripts/ifcfg-eth0 \  -e &amp;#39;s/^DHCP_HOSTNAME=.*/DHCP_HOSTNAME=&amp;#34;&amp;#39;$name&amp;#39;&amp;#34;/&amp;#39; (above is taken from https://gist.github.com/brk3/8d029adf03fbfcd5b69f473cea451355)
  Ensure the gateway is available as a nameserver in /etc/resolv.</description>
     </item>
     
@@ -81,7 +92,7 @@ In virtualisation terms the different levels of hypervisor are referred to as LN
       
       <guid>https://brk3.github.io/post/how-to-hugo/</guid>
       <description>Here&amp;rsquo;s how to publish new posts on this blog using Hugo.
- Install hugo (via apt or from https://github.com/spf13/hugo/releases)  apt install hugo   Setup the repo  git clone -b source git@github.com:brk3/brk3.github.io.git   Create a new post  hugo new post/how-to-hugo.md   Generate the site  hugo   Commit  git add . git commit -av git checkout master cp -r public/* . git add .</description>
+ Install hugo (via apt or from https://github.com/spf13/hugo/releases)  apt install hugo  Setup the repo  git clone -b source git@github.com:brk3/brk3.github.io.git  Create a new post  hugo new post/how-to-hugo.md  Generate the site  hugo  Commit  git add . git commit -av git checkout master cp -r public/* . git add . git commit -am &amp;#34;Regenerate Site&amp;#34; git push --all </description>
     </item>
     
     <item>

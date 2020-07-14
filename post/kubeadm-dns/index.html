@@ -30,7 +30,7 @@
   <script src="https://brk3.github.io/highlight/highlight.pack.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
-  <meta name="generator" content="Hugo 0.40.1" />
+  <meta name="generator" content="Hugo 0.74.1" />
   
 </head>
 <body>
@@ -44,7 +44,7 @@
             <ul class="pure-menu-list">
 				
                 <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/about/" class="pure-menu-link"></a>
+                    <a href="https://brk3.github.io/about/" class="pure-menu-link">About</a>
                 </li>
             </ul>
         </div>
@@ -62,7 +62,6 @@
     </div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
-
 
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
@@ -88,23 +87,14 @@
             </div>
 
             <div class="post-content">
-                
-
-<p>CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to
+                <p>CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to
 kube-dns for some testing, and it wasn&rsquo;t obvious from the documentation how to do that. Here&rsquo;s how I
 went about it for reference.</p>
-
 <p>These steps assume kubeadm 1.13.</p>
-
 <h2 id="steps">Steps</h2>
-
 <p>First, initialise the master node, skipping the coredns addon phase:</p>
-
 <pre><code>kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns
-</code></pre>
-
-<p>Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:</p>
-
+</code></pre><p>Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:</p>
 <pre><code>$ cat &gt; kubeadm-kube-dns.yaml &lt;&lt; EOF
 apiVersion: kubeadm.k8s.io/v1beta1
 kind: ClusterConfiguration
@@ -112,27 +102,16 @@ dns:
     type: &quot;kube-dns&quot;
     imageRepository: myregistry:5000
 EOF
-</code></pre>
-
-<p>This example also shows how to use a custom repository for the images.</p>
-
+</code></pre><p>This example also shows how to use a custom repository for the images.</p>
 <p>Now init the addon:</p>
-
 <pre><code>kubeadm init phase addon coredns --config=kubeadm-kube-dns.yaml
-</code></pre>
-
-<p>Finally, add your CNI addon of choice to finish setting up the master:</p>
-
+</code></pre><p>Finally, add your CNI addon of choice to finish setting up the master:</p>
 <pre><code>kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-</code></pre>
-
-<p>That&rsquo;s it. I also found the following steps from <a href="https://www.ibm.com/support/knoawledgecenter/en/SSYGQH_6.0.0/admin/install/cp_prereq_kubernetes_dns.html">IBM</a> useful to verify the DNS is sane (remember to
+</code></pre><p>That&rsquo;s it. I also found the following steps from <a href="https://www.ibm.com/support/knoawledgecenter/en/SSYGQH_6.0.0/admin/install/cp_prereq_kubernetes_dns.html">IBM</a> useful to verify the DNS is sane (remember to
 add a k8s worker before proceeding with this):</p>
-
 <pre><code>kubectl create -f https://k8s.io/examples/admin/dns/busybox.yaml
 kubectl exec -ti busybox -- nslookup kubernetes.default
 </code></pre>
-
             </div>
         </div>
 	</div>

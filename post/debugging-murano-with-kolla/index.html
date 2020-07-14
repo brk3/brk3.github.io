@@ -30,7 +30,7 @@
   <script src="https://brk3.github.io/highlight/highlight.pack.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
-  <meta name="generator" content="Hugo 0.40.1" />
+  <meta name="generator" content="Hugo 0.74.1" />
   
 </head>
 <body>
@@ -44,7 +44,7 @@
             <ul class="pure-menu-list">
 				
                 <li class="pure-menu-item">
-                    <a href="https://brk3.github.io/about/" class="pure-menu-link"></a>
+                    <a href="https://brk3.github.io/about/" class="pure-menu-link">About</a>
                 </li>
             </ul>
         </div>
@@ -62,7 +62,6 @@
     </div>
     <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
-
 
 <div class="pure-g">
     <div class="pure-u-1-24 pure-u-md-5-24"></div>
@@ -88,76 +87,47 @@
             </div>
 
             <div class="post-content">
-                
-
-<p>The <a href="https://docs.openstack.org/developer/kolla-ansible/">kolla-ansible</a> project recently gained support for hacking on the
+                <p>The <a href="https://docs.openstack.org/developer/kolla-ansible/">kolla-ansible</a> project recently gained support for hacking on the
 OpenStack services it deploys, much the same as devstack.</p>
-
 <p>Services are being added as we go, so it&rsquo;s unlikely all will be supported for
 the Pike release. That said it&rsquo;s quite easy to add support for new projects, so
 if the one you&rsquo;re interested in isn&rsquo;t there yet have a go!</p>
-
 <p>I&rsquo;ve been using this for the past month or so to submit patches into the Murano
 project, and wanted to give a short overview of how Kolla can be used to do
 this.</p>
-
 <h2 id="enabling">Enabling</h2>
-
 <p>Start by enabling dev mode for the project(s) you&rsquo;re interested in within
 /etc/kolla/globals.yml:</p>
-
 <pre><code>murano_dev_mode: true
-</code></pre>
-
-<p>Then either deploy the project:</p>
-
+</code></pre><p>Then either deploy the project:</p>
 <pre><code>kolla-ansible deploy --tags murano
-</code></pre>
-
-<p>or reconfigure it if it&rsquo;s already been deployed:</p>
-
+</code></pre><p>or reconfigure it if it&rsquo;s already been deployed:</p>
 <pre><code>kolla-ansible reconfigure --tags murano
-</code></pre>
-
-<p>Kolla will clone the source code for the project under <em>&rsquo;/opt/stack&rsquo;</em>, and bind
+</code></pre><p>Kolla will clone the source code for the project under <em>'/opt/stack&rsquo;</em>, and bind
 mount it into the container. The benefit of this is that you can use local
 development tools, your favorite editor, etc. right from the node instead of
 having to install them all into the container. Also if the container happens to
 go into an error state or gets destroyed you don&rsquo;t lose your changes.</p>
-
 <h2 id="debugging">Debugging</h2>
-
 <p>Working on the code is as easy as making some changes to the local code, and
 restarting the container. Logs are available under
-<em>&rsquo;/var/lib/docker/volumes/kolla_logs/_data/murano&rsquo;</em>, and can be
+<em>'/var/lib/docker/volumes/kolla_logs/_data/murano&rsquo;</em>, and can be
 tailed/grepped from a separate terminal.</p>
-
 <p>To actually debug the code, I&rsquo;ve found <a href="https://pypi.python.org/pypi/remote-pdb">remote_pdb</a> to be very effective.
 We currently don&rsquo;t include this in the Docker images but it can be installed
 easily:</p>
-
 <pre><code>docker exec -it -u root murano_api pip install remote_pdb
-</code></pre>
-
-<p>Set a break point as follows:</p>
-
+</code></pre><p>Set a break point as follows:</p>
 <pre><code>from remote_pdb import RemotePdb
 RemotePdb('127.0.0.1', 4444).set_trace()
-</code></pre>
-
-<p>Restart the container, and attach to pdb using:</p>
-
+</code></pre><p>Restart the container, and attach to pdb using:</p>
 <pre><code>socat readline tcp:127.0.0.1:4444
-</code></pre>
-
-<h2 id="summary">Summary</h2>
-
+</code></pre><h2 id="summary">Summary</h2>
 <p>One of the best things about using Kolla is it&rsquo;s &ldquo;don&rsquo;t touch the host where at
 all possible&rdquo; mantra. This is one area where I find it really surpasses
 devstack, as deploys can quickly be torn down with confidence that nothing will
 be left behind. This leads to more repeatable patches, testing, and less &ldquo;works
 on my machine&rdquo; code.</p>
-
 <p>Give it a try, and feel free to ask questions in <a href="https://kiwiirc.com/client/irc.freenode.net/#openstack-kolla">#openstack-kolla</a> on freenode.</p>
 
             </div>

@@ -4,8 +4,8 @@
 
   
   <meta charset="utf-8">
-  <title>How to Hugo - brk3.github.io</title>
-  <meta name="description" content="How to Hugo">
+  <title>Using Python Poetry with AWS Codeartifact - brk3.github.io</title>
+  <meta name="description" content="Using Python Poetry with AWS Codeartifact">
   <meta name="author" content="Paul Bourke">
 
   
@@ -70,7 +70,7 @@
 
             <div class="post-title">
                 <p class="footnote">
-                    <time class="">2017-01-06</time>
+                    <time class="">2020-07-14</time>
 		            
                     
                     |
@@ -78,45 +78,29 @@
                     
 
                     
-                    categories:<a href="https://brk3.github.io/categories/howto">howto</a> 
+                    categories:<a href="https://brk3.github.io/categories/aws">aws</a> <a href="https://brk3.github.io/categories/python">python</a> <a href="https://brk3.github.io/categories/notes">notes</a> 
                     
 
                     
                 </p>
-                <h1>How to Hugo</h1>
+                <h1>Using Python Poetry with AWS Codeartifact</h1>
             </div>
 
             <div class="post-content">
-                <p>Here&rsquo;s how to publish new posts on this blog using Hugo.</p>
-<ul>
-<li>Install hugo (via apt or from <a href="https://github.com/spf13/hugo/releases">https://github.com/spf13/hugo/releases</a>)</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install hugo
-</code></pre></div><ul>
-<li>Setup the repo</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone -b source git@github.com:brk3/brk3.github.io.git
-</code></pre></div><ul>
-<li>Create a new post</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">hugo new post/how-to-hugo.md
-</code></pre></div><ul>
-<li>Generate the site</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">hugo
-</code></pre></div><ul>
-<li>Commit</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git add .
-git commit -av
+                <p>Python Poetry<a href="https://python-poetry.org/">0</a> is a really nice tool I&rsquo;ve been using lately to simplfy the pain that is packaging
+in Python.</p>
+<p>I had some issues getting it to publish to a CodeArtifact repository in AWS; the URL shown in the
+console for pypi based setups was resulting in the following error:</p>
+<pre><code>$ poetry publish -r myrepo -u aws -p $CODEARTIFACT_AUTH_TOKEN
 
-git checkout master
-cp -r public/* .
-git add .
-git commit -am <span style="color:#e6db74">&#34;Regenerate Site&#34;</span>
+Publishing hello-world (0.1.0) to myrepo
+ - Uploading hello-world-0.1.0.tar.gz 100%
 
-git push --all
-</code></pre></div>
+[UploadError]
+HTTP Error 404: Not Found
+
+</code></pre><p>However, if you take the URL from the CodeArtifact console for twine<a href="https://github.com/pypa/twine">1</a> it will work just fine.</p>
+
             </div>
         </div>
 	</div>

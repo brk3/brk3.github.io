@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on brk3.github.io</title>
@@ -6,21 +6,40 @@
     <description>Recent content in Categories on brk3.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Tue, 14 Jul 2020 11:56:01 +0000</lastBuildDate>
     
 	<atom:link href="https://brk3.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Howto</title>
-      <link>https://brk3.github.io/categories/howto/</link>
-      <pubDate>Thu, 19 Apr 2018 12:46:12 +0100</pubDate>
+      <title>aws</title>
+      <link>https://brk3.github.io/categories/aws/</link>
+      <pubDate>Tue, 14 Jul 2020 11:56:01 +0000</pubDate>
       
-      <guid>https://brk3.github.io/categories/howto/</guid>
+      <guid>https://brk3.github.io/categories/aws/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Kubernetes</title>
+      <title>notes</title>
+      <link>https://brk3.github.io/categories/notes/</link>
+      <pubDate>Tue, 14 Jul 2020 11:56:01 +0000</pubDate>
+      
+      <guid>https://brk3.github.io/categories/notes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://brk3.github.io/categories/python/</link>
+      <pubDate>Tue, 14 Jul 2020 11:56:01 +0000</pubDate>
+      
+      <guid>https://brk3.github.io/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
       <link>https://brk3.github.io/categories/kubernetes/</link>
       <pubDate>Thu, 21 Mar 2019 12:01:43 +0000</pubDate>
       
@@ -29,25 +48,16 @@
     </item>
     
     <item>
-      <title>Misc</title>
-      <link>https://brk3.github.io/categories/misc/</link>
-      <pubDate>Thu, 01 Dec 2016 14:13:31 +0000</pubDate>
+      <title>howto</title>
+      <link>https://brk3.github.io/categories/howto/</link>
+      <pubDate>Thu, 19 Apr 2018 12:46:12 +0100</pubDate>
       
-      <guid>https://brk3.github.io/categories/misc/</guid>
+      <guid>https://brk3.github.io/categories/howto/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Notes</title>
-      <link>https://brk3.github.io/categories/notes/</link>
-      <pubDate>Thu, 21 Mar 2019 12:01:43 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/categories/notes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Openstack</title>
+      <title>openstack</title>
       <link>https://brk3.github.io/categories/openstack/</link>
       <pubDate>Thu, 19 Apr 2018 12:46:12 +0100</pubDate>
       
@@ -56,11 +66,20 @@
     </item>
     
     <item>
-      <title>Virtualisation</title>
+      <title>virtualisation</title>
       <link>https://brk3.github.io/categories/virtualisation/</link>
       <pubDate>Thu, 19 Apr 2018 12:46:12 +0100</pubDate>
       
       <guid>https://brk3.github.io/categories/virtualisation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>misc</title>
+      <link>https://brk3.github.io/categories/misc/</link>
+      <pubDate>Thu, 01 Dec 2016 14:13:31 +0000</pubDate>
+      
+      <guid>https://brk3.github.io/categories/misc/</guid>
       <description></description>
     </item>
     
