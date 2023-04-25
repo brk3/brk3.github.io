@@ -13,7 +13,7 @@
 <title>How to Hugo - brk3.github.io</title>
 
 <meta name="description" content="Here&rsquo;s how to publish new posts on this blog using Hugo.
-Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . git add . git commit -am &#34;Regenerate Site&#34; git push --all ">
+Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . # Note, this will not show changes in the index! git add . git commit -am &#34;Regenerate Site&#34; git push --all ">
 
 
 
@@ -87,7 +87,7 @@ Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt instal
 
 <meta property="og:title" content="How to Hugo" />
 <meta property="og:description" content="Here&rsquo;s how to publish new posts on this blog using Hugo.
-Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . git add . git commit -am &#34;Regenerate Site&#34; git push --all " />
+Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . # Note, this will not show changes in the index! git add . git commit -am &#34;Regenerate Site&#34; git push --all " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://brk3.github.io/posts/how-to-hugo/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-01-06T17:15:03+00:00" />
@@ -96,7 +96,7 @@ Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt instal
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How to Hugo"/>
 <meta name="twitter:description" content="Here&rsquo;s how to publish new posts on this blog using Hugo.
-Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . git add . git commit -am &#34;Regenerate Site&#34; git push --all "/>
+Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . # Note, this will not show changes in the index! git add . git commit -am &#34;Regenerate Site&#34; git push --all "/>
 
 
 
@@ -254,7 +254,7 @@ if (!doNotTrack) {
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hugo
 </span></span><span style="display:flex;"><span>git checkout master
-</span></span><span style="display:flex;"><span>cp -r public/* .
+</span></span><span style="display:flex;"><span>cp -r public/* .  <span style="color:#75715e"># Note, this will not show changes in the index!</span>
 </span></span><span style="display:flex;"><span>git add .
 </span></span><span style="display:flex;"><span>git commit -am <span style="color:#e6db74">&#34;Regenerate Site&#34;</span>
 </span></span><span style="display:flex;"><span>git push --all
