@@ -33,7 +33,7 @@ git commit -av
 ```bash
 hugo
 git checkout master
-cp -r public/* .
+cp -r public/* .  # Note, this will not show changes in the index!
 git add .
 git commit -am "Regenerate Site"
 git push --all
