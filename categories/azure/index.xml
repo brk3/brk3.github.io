@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubernetes on brk3.github.io</title>
-    <link>https://brk3.github.io/categories/kubernetes/</link>
-    <description>brk3.github.io (kubernetes)</description>
+    <title>azure on brk3.github.io</title>
+    <link>https://brk3.github.io/categories/azure/</link>
+    <description>brk3.github.io (azure)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 25 Apr 2023 12:32:30 +0100</lastBuildDate>
     
-    <atom:link href="https://brk3.github.io/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://brk3.github.io/categories/azure/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -64,44 +64,6 @@ managed to get a working example, which I&amp;rsquo;m posting here for future us
 &lt;p&gt;The full code for this can be found
 &lt;a href=&#34;https://gist.github.com/brk3/0f263edeb0eb842a7d1ace45fb50b150&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>How to replace coredns with kube-dns</title>
-      <link>https://brk3.github.io/posts/kubeadm-dns/</link>
-      <pubDate>Thu, 21 Mar 2019 12:01:43 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/posts/kubeadm-dns/</guid>
-      <description>&lt;p&gt;CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to
-kube-dns for some testing, and it wasn&amp;rsquo;t obvious from the documentation how to do that. Here&amp;rsquo;s how I
-went about it for reference.&lt;/p&gt;
-&lt;p&gt;These steps assume kubeadm 1.13.&lt;/p&gt;
-&lt;h2 id=&#34;steps&#34; &gt;Steps
-&lt;span&gt;
-    &lt;a href=&#34;#steps&#34;&gt;
-        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
-    &lt;/a&gt;
-&lt;/span&gt;
-&lt;/h2&gt;&lt;p&gt;First, initialise the master node, skipping the coredns addon phase:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat &amp;gt; kubeadm-kube-dns.yaml &amp;lt;&amp;lt; EOF
-apiVersion: kubeadm.k8s.io/v1beta1
-kind: ClusterConfiguration
-dns:
-    type: &amp;#34;kube-dns&amp;#34;
-    imageRepository: myregistry:5000
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This example also shows how to use a custom repository for the images.&lt;/p&gt;
-&lt;p&gt;Now init the addon:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubeadm init phase addon coredns --config=kubeadm-kube-dns.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Finally, add your CNI addon of choice to finish setting up the master:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;That&amp;rsquo;s it. I also found the following steps from &lt;a href=&#34;https://www.ibm.com/support/knoawledgecenter/en/SSYGQH_6.0.0/admin/install/cp_prereq_kubernetes_dns.html&#34;&gt;IBM&lt;/a&gt; useful to verify the DNS is sane (remember to
-add a k8s worker before proceeding with this):&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl create -f https://k8s.io/examples/admin/dns/busybox.yaml
-kubectl exec -ti busybox -- nslookup kubernetes.default
-&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>

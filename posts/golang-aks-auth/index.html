@@ -10,15 +10,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer-when-downgrade">
 
-<title>howto - brk3.github.io</title>
+<title>AKS Authentication with Golang - brk3.github.io</title>
 
-<meta name="description" content="">
-
-
-
+<meta name="description" content="Overview Recently I&rsquo;ve needed to interact with Azure Kubernetes Service (AKS) using golang. This isn&rsquo;t hard, but what complicates matters somewhat is when the cluster is AAD enabled.
+In this case the general advice is to use kubelogin. In the past I&rsquo;ve shelled out to kubelogin from my golang code, and this works fine. However, we should be able to do this in native golang without the dependencies on external tools.">
 
 
-<link rel="alternate" type="application/rss+xml" href="https://brk3.github.io/categories/howto/index.xml" title="brk3.github.io" />
+
+
+
 <link rel="icon" type="image/x-icon" href="https://brk3.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://brk3.github.io/favicon.png">
 
@@ -85,14 +85,18 @@
 
 
 
-<meta property="og:title" content="howto" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://brk3.github.io/categories/howto/" />
+<meta property="og:title" content="AKS Authentication with Golang" />
+<meta property="og:description" content="Overview Recently I&rsquo;ve needed to interact with Azure Kubernetes Service (AKS) using golang. This isn&rsquo;t hard, but what complicates matters somewhat is when the cluster is AAD enabled.
+In this case the general advice is to use kubelogin. In the past I&rsquo;ve shelled out to kubelogin from my golang code, and this works fine. However, we should be able to do this in native golang without the dependencies on external tools." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://brk3.github.io/posts/golang-aks-auth/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-25T12:32:30+01:00" />
+<meta property="article:modified_time" content="2023-04-25T12:32:30+01:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="howto"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="AKS Authentication with Golang"/>
+<meta name="twitter:description" content="Overview Recently I&rsquo;ve needed to interact with Azure Kubernetes Service (AKS) using golang. This isn&rsquo;t hard, but what complicates matters somewhat is when the cluster is AAD enabled.
+In this case the general advice is to use kubelogin. In the past I&rsquo;ve shelled out to kubelogin from my golang code, and this works fine. However, we should be able to do this in native golang without the dependencies on external tools."/>
 
 
 
@@ -219,34 +223,76 @@ if (!doNotTrack) {
         </header>
         <main id="main" tabindex="-1"> 
             
-    <h1>Category: howto</h1>
-    <div class="post-info">
-        <a href="/categories/">To all categories</a>
-    </div>
     
-    
-        <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/libvirt-dns/">Libvirt DNS</a></h1>
-        </header>
-        
-    </div>
 
-    
-    
-    
-    
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">AKS Authentication with Golang</h1>
+
+                
+            </header>
+        </div>
+        <div class="content e-content">
+            <h1 id="overview" >Overview
+<span>
+    <a href="#overview">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h1><p>Recently I&rsquo;ve needed to interact with Azure Kubernetes Service (AKS) using golang. This isn&rsquo;t hard,
+but what complicates matters somewhat is when the cluster is AAD enabled.</p>
+<p>In this case the general advice is to use <a href="https://github.com/Azure/kubelogin">kubelogin</a>. In the
+past I&rsquo;ve shelled out to <code>kubelogin</code> from my golang code, and this works fine. However, we should be
+able to do this in native golang without the dependencies on external tools.</p>
+<p>The requirements I came up with are as follows:</p>
+<ul>
+<li>Allow use of various auth methods, in particular azcli and system assigned managed identity.</li>
+<li>Doesn&rsquo;t require a kubeconfig to be present on the host.</li>
+<li>Doesn&rsquo;t require persisting the kubeconfig to the host.</li>
+<li>Uses native and non deprecated sdks.</li>
+</ul>
+<h1 id="even-too-hard-for-chatgpt" >Even too hard for ChatGPT?!
+<span>
+    <a href="#even-too-hard-for-chatgpt">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h1><p>Surprisingly, I wasn&rsquo;t able to find any good stock examples of this online. I assume they have to be
+out there, but either my Google-fu is coming up short or I&rsquo;m missing something obvious! Even ChatGPT
+was spewing non working examples and insisted on using the deprecated
+<a href="https://github.com/Azure/go-autorest">go-autorest</a>. After splunking through the docs I finally
+managed to get a working example, which I&rsquo;m posting here for future use.</p>
+<h1 id="process" >Process
+<span>
+    <a href="#process">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h1><p>From a high level, the process to obtain an authorized k8s client is as follows:</p>
+<ul>
+<li>Create an authenticated Azure client</li>
+<li>Fetch a client for the container service</li>
+<li>Fetch the kubeconfig</li>
+<li>Fetch an AAD bearer token</li>
+<li>Replace the exec plugin details with the token in the kubeconfig</li>
+<li>Finally, create a k8s client using the kubeconfig</li>
+</ul>
+<p>The full code for this can be found
+<a href="https://gist.github.com/brk3/0f263edeb0eb842a7d1ace45fb50b150">here</a>.</p>
+
+        </div>
+        
 
     
 
 
 <div class="post-info">
     
-        <div class="post-date dt-published">09-01-2017</div>
+        <div class="post-date dt-published">25-04-2023</div>
     
 
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/libvirt-dns/">https://brk3.github.io/posts/libvirt-dns/</a>
+    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/golang-aks-auth/">https://brk3.github.io/posts/golang-aks-auth/</a>
     <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
 
 
@@ -257,46 +303,14 @@ if (!doNotTrack) {
                     
                     <li><a href="https://brk3.github.io/categories/howto/">howto</a></li>
                 
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-    
-        <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/how-to-hugo/">How to Hugo</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">06-01-2017</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/how-to-hugo/">https://brk3.github.io/posts/how-to-hugo/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
+                    
+                    <li><a href="https://brk3.github.io/categories/kubernetes/">kubernetes</a></li>
                 
                     
-                    <li><a href="https://brk3.github.io/categories/howto/">howto</a></li>
+                    <li><a href="https://brk3.github.io/categories/azure/">azure</a></li>
+                
+                    
+                    <li><a href="https://brk3.github.io/categories/golang/">golang</a></li>
                 
             </ul>
         
@@ -305,24 +319,68 @@ if (!doNotTrack) {
     </div>
 </div>
 
-</article>
+    </article>
+
     
+        
+        
     
+
     
-    
-    <div class="pagination">
-        <div class="left pagination-item ">
-            
-                <a href="/categories/howto/">to new posts</a>
+        
+    <div class="pagination post-pagination">
+        <div class="left pagination-item disabled">
             
         </div>
-        <div class="right pagination-item disabled">
+        <div class="right pagination-item ">
+            
+                <a href="/posts/kubeadm-dns/">How to replace coredns with kube-dns</a>
             
         </div>
     </div>
 
 
 
+
+    
+
+    
+        
+
+
+
+
+    
+
+
+
+
+
+<article class="post">
+<script
+    data-isso="https://comments.example.com/"
+    data-isso-id="thread-id"
+    data-isso-css="true"
+    data-isso-lang="de"
+    data-isso-reply-to-self="true"
+    data-isso-require-author="true"
+    data-isso-require-email="true"
+    data-isso-avatar="true"
+    data-isso-avatar-bg="#f0f0f0"
+    data-isso-feed="false"
+    src="https://comments.example.com/js/embed.min.js">
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://posativ.org/isso/">Isso</a>.</noscript>
+<div>
+  <section id="isso-thread"></section>
+</div>
+</article>
+
+
+
+
+
+    
 
         </main>
         

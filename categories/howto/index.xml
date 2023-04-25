@@ -6,10 +6,65 @@
     <description>brk3.github.io (howto)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Apr 2018 12:46:12 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 25 Apr 2023 12:32:30 +0100</lastBuildDate>
     
     <atom:link href="https://brk3.github.io/categories/howto/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>AKS Authentication with Golang</title>
+      <link>https://brk3.github.io/posts/golang-aks-auth/</link>
+      <pubDate>Tue, 25 Apr 2023 12:32:30 +0100</pubDate>
+      
+      <guid>https://brk3.github.io/posts/golang-aks-auth/</guid>
+      <description>&lt;h1 id=&#34;overview&#34; &gt;Overview
+&lt;span&gt;
+    &lt;a href=&#34;#overview&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h1&gt;&lt;p&gt;Recently I&amp;rsquo;ve needed to interact with Azure Kubernetes Service (AKS) using golang. This isn&amp;rsquo;t hard,
+but what complicates matters somewhat is when the cluster is AAD enabled.&lt;/p&gt;
+&lt;p&gt;In this case the general advice is to use &lt;a href=&#34;https://github.com/Azure/kubelogin&#34;&gt;kubelogin&lt;/a&gt;. In the
+past I&amp;rsquo;ve shelled out to &lt;code&gt;kubelogin&lt;/code&gt; from my golang code, and this works fine. However, we should be
+able to do this in native golang without the dependencies on external tools.&lt;/p&gt;
+&lt;p&gt;The requirements I came up with are as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Allow use of various auth methods, in particular azcli and system assigned managed identity.&lt;/li&gt;
+&lt;li&gt;Doesn&amp;rsquo;t require a kubeconfig to be present on the host.&lt;/li&gt;
+&lt;li&gt;Doesn&amp;rsquo;t require persisting the kubeconfig to the host.&lt;/li&gt;
+&lt;li&gt;Uses native and non deprecated sdks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;even-too-hard-for-chatgpt&#34; &gt;Even too hard for ChatGPT?!
+&lt;span&gt;
+    &lt;a href=&#34;#even-too-hard-for-chatgpt&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h1&gt;&lt;p&gt;Surprisingly, I wasn&amp;rsquo;t able to find any good stock examples of this online. I assume they have to be
+out there, but either my Google-fu is coming up short or I&amp;rsquo;m missing something obvious! Even ChatGPT
+was spewing non working examples and insisted on using the deprecated
+&lt;a href=&#34;https://github.com/Azure/go-autorest&#34;&gt;go-autorest&lt;/a&gt;. After splunking through the docs I finally
+managed to get a working example, which I&amp;rsquo;m posting here for future use.&lt;/p&gt;
+&lt;h1 id=&#34;process&#34; &gt;Process
+&lt;span&gt;
+    &lt;a href=&#34;#process&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h1&gt;&lt;p&gt;From a high level, the process to obtain an authorized k8s client is as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create an authenticated Azure client&lt;/li&gt;
+&lt;li&gt;Fetch a client for the container service&lt;/li&gt;
+&lt;li&gt;Fetch the kubeconfig&lt;/li&gt;
+&lt;li&gt;Fetch an AAD bearer token&lt;/li&gt;
+&lt;li&gt;Replace the exec plugin details with the token in the kubeconfig&lt;/li&gt;
+&lt;li&gt;Finally, create a k8s client using the kubeconfig&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The full code for this can be found
+&lt;a href=&#34;https://gist.github.com/brk3/0f263edeb0eb842a7d1ace45fb50b150&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Deploying virtual baremetal with Ironic &amp; Kolla</title>
