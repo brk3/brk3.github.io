@@ -3,67 +3,13 @@
   <channel>
     <title>Categories on brk3.github.io</title>
     <link>https://brk3.github.io/categories/</link>
-    <description>Recent content in Categories on brk3.github.io</description>
+    <description>brk3.github.io (Categories)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 21 Mar 2019 12:01:43 +0000</lastBuildDate>
     
-	<atom:link href="https://brk3.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://brk3.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>kubernetes</title>
-      <link>https://brk3.github.io/categories/kubernetes/</link>
-      <pubDate>Thu, 21 Mar 2019 12:01:43 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/categories/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>notes</title>
-      <link>https://brk3.github.io/categories/notes/</link>
-      <pubDate>Thu, 21 Mar 2019 12:01:43 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/categories/notes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>howto</title>
-      <link>https://brk3.github.io/categories/howto/</link>
-      <pubDate>Thu, 19 Apr 2018 12:46:12 +0100</pubDate>
-      
-      <guid>https://brk3.github.io/categories/howto/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>openstack</title>
-      <link>https://brk3.github.io/categories/openstack/</link>
-      <pubDate>Thu, 19 Apr 2018 12:46:12 +0100</pubDate>
-      
-      <guid>https://brk3.github.io/categories/openstack/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>virtualisation</title>
-      <link>https://brk3.github.io/categories/virtualisation/</link>
-      <pubDate>Thu, 19 Apr 2018 12:46:12 +0100</pubDate>
-      
-      <guid>https://brk3.github.io/categories/virtualisation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>misc</title>
-      <link>https://brk3.github.io/categories/misc/</link>
-      <pubDate>Thu, 01 Dec 2016 14:13:31 +0000</pubDate>
-      
-      <guid>https://brk3.github.io/categories/misc/</guid>
-      <description></description>
-    </item>
     
   </channel>
 </rss>

@@ -3,11 +3,11 @@
   <channel>
     <title>Tags on brk3.github.io</title>
     <link>https://brk3.github.io/tags/</link>
-    <description>Recent content in Tags on brk3.github.io</description>
+    <description>brk3.github.io (Tags)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="https://brk3.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://brk3.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

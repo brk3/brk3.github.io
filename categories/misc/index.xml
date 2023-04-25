@@ -3,21 +3,22 @@
   <channel>
     <title>misc on brk3.github.io</title>
     <link>https://brk3.github.io/categories/misc/</link>
-    <description>Recent content in misc on brk3.github.io</description>
+    <description>brk3.github.io (misc)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 01 Dec 2016 14:13:31 +0000</lastBuildDate>
     
-	<atom:link href="https://brk3.github.io/categories/misc/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://brk3.github.io/categories/misc/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hello World</title>
-      <link>https://brk3.github.io/post/hello-world/</link>
+      <link>https://brk3.github.io/posts/hello-world/</link>
       <pubDate>Thu, 01 Dec 2016 14:13:31 +0000</pubDate>
       
-      <guid>https://brk3.github.io/post/hello-world/</guid>
-      <description>Hello World!</description>
+      <guid>https://brk3.github.io/posts/hello-world/</guid>
+      <description>&lt;p&gt;Hello World!&lt;/p&gt;
+</description>
     </item>
     
   </channel>

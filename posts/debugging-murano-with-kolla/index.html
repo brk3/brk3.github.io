@@ -3,7 +3,6 @@
 
 <html lang="en-us" data-theme="">
 <head>
-	<meta name="generator" content="Hugo 0.111.3">
     
         
 <meta charset="utf-8">
@@ -11,15 +10,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer-when-downgrade">
 
-<title>brk3.github.io</title>
+<title>Debugging Murano with Kolla - brk3.github.io</title>
 
-<meta name="description" content="">
+<meta name="description" content="The kolla-ansible project recently gained support for hacking on the OpenStack services it deploys, much the same as devstack.
+Services are being added as we go, so it&rsquo;s unlikely all will be supported for the Pike release. That said it&rsquo;s quite easy to add support for new projects, so if the one you&rsquo;re interested in isn&rsquo;t there yet have a go!
+I&rsquo;ve been using this for the past month or so to submit patches into the Murano project, and wanted to give a short overview of how Kolla can be used to do this.">
 
 
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://brk3.github.io/index.xml" title="brk3.github.io" />
 <link rel="icon" type="image/x-icon" href="https://brk3.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://brk3.github.io/favicon.png">
 
@@ -86,14 +86,20 @@
 
 
 
-<meta property="og:title" content="brk3.github.io" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://brk3.github.io/" />
+<meta property="og:title" content="Debugging Murano with Kolla" />
+<meta property="og:description" content="The kolla-ansible project recently gained support for hacking on the OpenStack services it deploys, much the same as devstack.
+Services are being added as we go, so it&rsquo;s unlikely all will be supported for the Pike release. That said it&rsquo;s quite easy to add support for new projects, so if the one you&rsquo;re interested in isn&rsquo;t there yet have a go!
+I&rsquo;ve been using this for the past month or so to submit patches into the Murano project, and wanted to give a short overview of how Kolla can be used to do this." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://brk3.github.io/posts/debugging-murano-with-kolla/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-06-15T16:31:32+01:00" />
+<meta property="article:modified_time" content="2017-06-15T16:31:32+01:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="brk3.github.io"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="Debugging Murano with Kolla"/>
+<meta name="twitter:description" content="The kolla-ansible project recently gained support for hacking on the OpenStack services it deploys, much the same as devstack.
+Services are being added as we go, so it&rsquo;s unlikely all will be supported for the Pike release. That said it&rsquo;s quite easy to add support for new projects, so if the one you&rsquo;re interested in isn&rsquo;t there yet have a go!
+I&rsquo;ve been using this for the past month or so to submit patches into the Murano project, and wanted to give a short overview of how Kolla can be used to do this."/>
 
 
 
@@ -220,116 +226,77 @@ if (!doNotTrack) {
         </header>
         <main id="main" tabindex="-1"> 
             
-    <div class="homepage-content">
-        
-    </div>
-
-    <div class="articles h-feed">
-        
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/kubeadm-dns/">How to replace coredns with kube-dns</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
     
 
-    
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">Debugging Murano with Kolla</h1>
 
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">21-03-2019</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/kubeadm-dns/">https://brk3.github.io/posts/kubeadm-dns/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
                 
-                    
-                    <li><a href="https://brk3.github.io/categories/notes/">notes</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/kubernetes/">kubernetes</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
+            </header>
+        </div>
+        <div class="content e-content">
+            <p>The <a href="https://docs.openstack.org/developer/kolla-ansible/">kolla-ansible</a> project recently gained support for hacking on the
+OpenStack services it deploys, much the same as devstack.</p>
+<p>Services are being added as we go, so it&rsquo;s unlikely all will be supported for
+the Pike release. That said it&rsquo;s quite easy to add support for new projects, so
+if the one you&rsquo;re interested in isn&rsquo;t there yet have a go!</p>
+<p>I&rsquo;ve been using this for the past month or so to submit patches into the Murano
+project, and wanted to give a short overview of how Kolla can be used to do
+this.</p>
+<h2 id="enabling" >Enabling
+<span>
+    <a href="#enabling">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>Start by enabling dev mode for the project(s) you&rsquo;re interested in within
+/etc/kolla/globals.yml:</p>
+<pre tabindex="0"><code>murano_dev_mode: true
+</code></pre><p>Then either deploy the project:</p>
+<pre tabindex="0"><code>kolla-ansible deploy --tags murano
+</code></pre><p>or reconfigure it if it&rsquo;s already been deployed:</p>
+<pre tabindex="0"><code>kolla-ansible reconfigure --tags murano
+</code></pre><p>Kolla will clone the source code for the project under <em>&rsquo;/opt/stack&rsquo;</em>, and bind
+mount it into the container. The benefit of this is that you can use local
+development tools, your favorite editor, etc. right from the node instead of
+having to install them all into the container. Also if the container happens to
+go into an error state or gets destroyed you don&rsquo;t lose your changes.</p>
+<h2 id="debugging" >Debugging
+<span>
+    <a href="#debugging">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>Working on the code is as easy as making some changes to the local code, and
+restarting the container. Logs are available under
+<em>&rsquo;/var/lib/docker/volumes/kolla_logs/_data/murano&rsquo;</em>, and can be
+tailed/grepped from a separate terminal.</p>
+<p>To actually debug the code, I&rsquo;ve found <a href="https://pypi.python.org/pypi/remote-pdb">remote_pdb</a> to be very effective.
+We currently don&rsquo;t include this in the Docker images but it can be installed
+easily:</p>
+<pre tabindex="0"><code>docker exec -it -u root murano_api pip install remote_pdb
+</code></pre><p>Set a break point as follows:</p>
+<pre tabindex="0"><code>from remote_pdb import RemotePdb
+RemotePdb(&#39;127.0.0.1&#39;, 4444).set_trace()
+</code></pre><p>Restart the container, and attach to pdb using:</p>
+<pre tabindex="0"><code>socat readline tcp:127.0.0.1:4444
+</code></pre><h2 id="summary" >Summary
+<span>
+    <a href="#summary">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>One of the best things about using Kolla is it&rsquo;s &ldquo;don&rsquo;t touch the host where at
+all possible&rdquo; mantra. This is one area where I find it really surpasses
+devstack, as deploys can quickly be torn down with confidence that nothing will
+be left behind. This leads to more repeatable patches, testing, and less &ldquo;works
+on my machine&rdquo; code.</p>
+<p>Give it a try, and feel free to ask questions in <a href="https://kiwiirc.com/client/irc.freenode.net/#openstack-kolla">#openstack-kolla</a> on freenode.</p>
 
-</article>
+        </div>
         
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/kolla-ironic-libvirt/">Deploying virtual baremetal with Ironic &amp; Kolla</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">19-04-2018</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/kolla-ironic-libvirt/">https://brk3.github.io/posts/kolla-ironic-libvirt/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/virtualisation/">virtualisation</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/openstack/">openstack</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/howto/">howto</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/debugging-murano-with-kolla/">Debugging Murano with Kolla</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
 
     
 
@@ -357,66 +324,70 @@ if (!doNotTrack) {
     </div>
 </div>
 
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/gmusic-to-spotify/">Importing albums from Google Music to Spotify</a></h1>
-        </header>
-        
-    </div>
+    </article>
 
     
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">26-05-2017</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/gmusic-to-spotify/">https://brk3.github.io/posts/gmusic-to-spotify/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/howto/">howto</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
         
         
     
+
     
-    <div class="pagination">
-        <div class="left pagination-item disabled">
+        
+    <div class="pagination post-pagination">
+        <div class="left pagination-item ">
+            
+                <a href="/posts/kolla-ironic-libvirt/">Deploying virtual baremetal with Ironic &amp; Kolla</a>
             
         </div>
         <div class="right pagination-item ">
             
-                <a href="/page/2/">to old posts</a>
+                <a href="/posts/gmusic-to-spotify/">Importing albums from Google Music to Spotify</a>
             
         </div>
     </div>
 
 
-    </div>
 
+
+    
+
+    
+        
+
+
+
+
+    
+
+
+
+
+
+<article class="post">
+<script
+    data-isso="https://comments.example.com/"
+    data-isso-id="thread-id"
+    data-isso-css="true"
+    data-isso-lang="de"
+    data-isso-reply-to-self="true"
+    data-isso-require-author="true"
+    data-isso-require-email="true"
+    data-isso-avatar="true"
+    data-isso-avatar-bg="#f0f0f0"
+    data-isso-feed="false"
+    src="https://comments.example.com/js/embed.min.js">
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://posativ.org/isso/">Isso</a>.</noscript>
+<div>
+  <section id="isso-thread"></section>
+</div>
+</article>
+
+
+
+
+
+    
 
         </main>
         

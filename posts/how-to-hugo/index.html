@@ -3,7 +3,6 @@
 
 <html lang="en-us" data-theme="">
 <head>
-	<meta name="generator" content="Hugo 0.111.3">
     
         
 <meta charset="utf-8">
@@ -11,15 +10,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer-when-downgrade">
 
-<title>brk3.github.io</title>
+<title>How to Hugo - brk3.github.io</title>
 
-<meta name="description" content="">
-
-
-
+<meta name="description" content="Here&rsquo;s how to publish new posts on this blog using Hugo.
+Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . git add . git commit -am &#34;Regenerate Site&#34; git push --all ">
 
 
-<link rel="alternate" type="application/rss+xml" href="https://brk3.github.io/index.xml" title="brk3.github.io" />
+
+
+
 <link rel="icon" type="image/x-icon" href="https://brk3.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://brk3.github.io/favicon.png">
 
@@ -86,14 +85,18 @@
 
 
 
-<meta property="og:title" content="brk3.github.io" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://brk3.github.io/" />
+<meta property="og:title" content="How to Hugo" />
+<meta property="og:description" content="Here&rsquo;s how to publish new posts on this blog using Hugo.
+Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . git add . git commit -am &#34;Regenerate Site&#34; git push --all " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://brk3.github.io/posts/how-to-hugo/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-01-06T17:15:03+00:00" />
+<meta property="article:modified_time" content="2017-01-06T17:15:03+00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="brk3.github.io"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="How to Hugo"/>
+<meta name="twitter:description" content="Here&rsquo;s how to publish new posts on this blog using Hugo.
+Install hugo (via apt or from https://github.com/spf13/hugo/releases) apt install hugo Setup the repo git clone -b source git@github.com:brk3/brk3.github.io.git Create a new post hugo new post/how-to-hugo.md &lt;edit&gt; git commit -av Republish the site hugo git checkout master cp -r public/* . git add . git commit -am &#34;Regenerate Site&#34; git push --all "/>
 
 
 
@@ -220,167 +223,54 @@ if (!doNotTrack) {
         </header>
         <main id="main" tabindex="-1"> 
             
-    <div class="homepage-content">
-        
-    </div>
+    
 
-    <div class="articles h-feed">
-        
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/kubeadm-dns/">How to replace coredns with kube-dns</a></h1>
-        </header>
-        
-    </div>
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">How to Hugo</h1>
 
-    
-    
-    
-    
+                
+            </header>
+        </div>
+        <div class="content e-content">
+            <p>Here&rsquo;s how to publish new posts on this blog using Hugo.</p>
+<ul>
+<li>Install hugo (via apt or from <a href="https://github.com/spf13/hugo/releases">https://github.com/spf13/hugo/releases</a>)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install hugo
+</span></span></code></pre></div><ul>
+<li>Setup the repo</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone -b source git@github.com:brk3/brk3.github.io.git
+</span></span></code></pre></div><ul>
+<li>Create a new post</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hugo new post/how-to-hugo.md
+</span></span><span style="display:flex;"><span>&lt;edit&gt;
+</span></span><span style="display:flex;"><span>git commit -av
+</span></span></code></pre></div><ul>
+<li>Republish the site</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hugo
+</span></span><span style="display:flex;"><span>git checkout master
+</span></span><span style="display:flex;"><span>cp -r public/* .
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span>git commit -am <span style="color:#e6db74">&#34;Regenerate Site&#34;</span>
+</span></span><span style="display:flex;"><span>git push --all
+</span></span></code></pre></div>
+        </div>
+        
 
     
 
 
 <div class="post-info">
     
-        <div class="post-date dt-published">21-03-2019</div>
+        <div class="post-date dt-published">06-01-2017</div>
     
 
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/kubeadm-dns/">https://brk3.github.io/posts/kubeadm-dns/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/notes/">notes</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/kubernetes/">kubernetes</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/kolla-ironic-libvirt/">Deploying virtual baremetal with Ironic &amp; Kolla</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">19-04-2018</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/kolla-ironic-libvirt/">https://brk3.github.io/posts/kolla-ironic-libvirt/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/virtualisation/">virtualisation</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/openstack/">openstack</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/howto/">howto</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/debugging-murano-with-kolla/">Debugging Murano with Kolla</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">15-06-2017</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/debugging-murano-with-kolla/">https://brk3.github.io/posts/debugging-murano-with-kolla/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/openstack/">openstack</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/gmusic-to-spotify/">Importing albums from Google Music to Spotify</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">26-05-2017</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/gmusic-to-spotify/">https://brk3.github.io/posts/gmusic-to-spotify/</a>
+    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/how-to-hugo/">https://brk3.github.io/posts/how-to-hugo/</a>
     <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
 
 
@@ -398,25 +288,70 @@ if (!doNotTrack) {
     </div>
 </div>
 
-</article>
+    </article>
+
+    
         
         
     
+
     
-    <div class="pagination">
-        <div class="left pagination-item disabled">
+        
+    <div class="pagination post-pagination">
+        <div class="left pagination-item ">
+            
+                <a href="/posts/libvirt-dns/">Libvirt DNS</a>
             
         </div>
         <div class="right pagination-item ">
             
-                <a href="/page/2/">to old posts</a>
+                <a href="/posts/hello-world/">Hello World</a>
             
         </div>
     </div>
 
 
-    </div>
 
+
+    
+
+    
+        
+
+
+
+
+    
+
+
+
+
+
+<article class="post">
+<script
+    data-isso="https://comments.example.com/"
+    data-isso-id="thread-id"
+    data-isso-css="true"
+    data-isso-lang="de"
+    data-isso-reply-to-self="true"
+    data-isso-require-author="true"
+    data-isso-require-email="true"
+    data-isso-avatar="true"
+    data-isso-avatar-bg="#f0f0f0"
+    data-isso-feed="false"
+    src="https://comments.example.com/js/embed.min.js">
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://posativ.org/isso/">Isso</a>.</noscript>
+<div>
+  <section id="isso-thread"></section>
+</div>
+</article>
+
+
+
+
+
+    
 
         </main>
         

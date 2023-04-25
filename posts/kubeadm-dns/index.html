@@ -3,7 +3,6 @@
 
 <html lang="en-us" data-theme="">
 <head>
-	<meta name="generator" content="Hugo 0.111.3">
     
         
 <meta charset="utf-8">
@@ -11,15 +10,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer-when-downgrade">
 
-<title>brk3.github.io</title>
+<title>How to replace coredns with kube-dns - brk3.github.io</title>
 
-<meta name="description" content="">
+<meta name="description" content="CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to kube-dns for some testing, and it wasn&rsquo;t obvious from the documentation how to do that. Here&rsquo;s how I went about it for reference.
+These steps assume kubeadm 1.13.
+Steps First, initialise the master node, skipping the coredns addon phase:
+kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:">
 
 
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://brk3.github.io/index.xml" title="brk3.github.io" />
 <link rel="icon" type="image/x-icon" href="https://brk3.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://brk3.github.io/favicon.png">
 
@@ -86,14 +87,22 @@
 
 
 
-<meta property="og:title" content="brk3.github.io" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://brk3.github.io/" />
+<meta property="og:title" content="How to replace coredns with kube-dns" />
+<meta property="og:description" content="CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to kube-dns for some testing, and it wasn&rsquo;t obvious from the documentation how to do that. Here&rsquo;s how I went about it for reference.
+These steps assume kubeadm 1.13.
+Steps First, initialise the master node, skipping the coredns addon phase:
+kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://brk3.github.io/posts/kubeadm-dns/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-03-21T12:01:43+00:00" />
+<meta property="article:modified_time" content="2019-03-21T12:01:43+00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="brk3.github.io"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="How to replace coredns with kube-dns"/>
+<meta name="twitter:description" content="CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to kube-dns for some testing, and it wasn&rsquo;t obvious from the documentation how to do that. Here&rsquo;s how I went about it for reference.
+These steps assume kubeadm 1.13.
+Steps First, initialise the master node, skipping the coredns addon phase:
+kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:"/>
 
 
 
@@ -220,25 +229,49 @@ if (!doNotTrack) {
         </header>
         <main id="main" tabindex="-1"> 
             
-    <div class="homepage-content">
-        
-    </div>
+    
 
-    <div class="articles h-feed">
-        
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/kubeadm-dns/">How to replace coredns with kube-dns</a></h1>
-        </header>
-        
-    </div>
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">How to replace coredns with kube-dns</h1>
 
-    
-    
-    
-    
+                
+            </header>
+        </div>
+        <div class="content e-content">
+            <p>CoreDNS is the default DNS addon in Kubernetes since 1.13. I recently needed to switch back to
+kube-dns for some testing, and it wasn&rsquo;t obvious from the documentation how to do that. Here&rsquo;s how I
+went about it for reference.</p>
+<p>These steps assume kubeadm 1.13.</p>
+<h2 id="steps" >Steps
+<span>
+    <a href="#steps">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>First, initialise the master node, skipping the coredns addon phase:</p>
+<pre tabindex="0"><code>kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-phases=addon/coredns
+</code></pre><p>Then prepare a kubeadm override config to specify kube-dns is to be used instead of the default:</p>
+<pre tabindex="0"><code>$ cat &gt; kubeadm-kube-dns.yaml &lt;&lt; EOF
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+dns:
+    type: &#34;kube-dns&#34;
+    imageRepository: myregistry:5000
+EOF
+</code></pre><p>This example also shows how to use a custom repository for the images.</p>
+<p>Now init the addon:</p>
+<pre tabindex="0"><code>kubeadm init phase addon coredns --config=kubeadm-kube-dns.yaml
+</code></pre><p>Finally, add your CNI addon of choice to finish setting up the master:</p>
+<pre tabindex="0"><code>kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+</code></pre><p>That&rsquo;s it. I also found the following steps from <a href="https://www.ibm.com/support/knoawledgecenter/en/SSYGQH_6.0.0/admin/install/cp_prereq_kubernetes_dns.html">IBM</a> useful to verify the DNS is sane (remember to
+add a k8s worker before proceeding with this):</p>
+<pre tabindex="0"><code>kubectl create -f https://k8s.io/examples/admin/dns/busybox.yaml
+kubectl exec -ti busybox -- nslookup kubernetes.default
+</code></pre>
+        </div>
+        
 
     
 
@@ -269,154 +302,68 @@ if (!doNotTrack) {
     </div>
 </div>
 
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/kolla-ironic-libvirt/">Deploying virtual baremetal with Ironic &amp; Kolla</a></h1>
-        </header>
-        
-    </div>
+    </article>
 
     
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">19-04-2018</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/kolla-ironic-libvirt/">https://brk3.github.io/posts/kolla-ironic-libvirt/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/virtualisation/">virtualisation</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/openstack/">openstack</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/howto/">howto</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/debugging-murano-with-kolla/">Debugging Murano with Kolla</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">15-06-2017</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/debugging-murano-with-kolla/">https://brk3.github.io/posts/debugging-murano-with-kolla/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/openstack/">openstack</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/gmusic-to-spotify/">Importing albums from Google Music to Spotify</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">26-05-2017</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/gmusic-to-spotify/">https://brk3.github.io/posts/gmusic-to-spotify/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/howto/">howto</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
         
         
     
+
     
-    <div class="pagination">
+        
+    <div class="pagination post-pagination">
         <div class="left pagination-item disabled">
             
         </div>
         <div class="right pagination-item ">
             
-                <a href="/page/2/">to old posts</a>
+                <a href="/posts/kolla-ironic-libvirt/">Deploying virtual baremetal with Ironic &amp; Kolla</a>
             
         </div>
     </div>
 
 
-    </div>
 
+
+    
+
+    
+        
+
+
+
+
+    
+
+
+
+
+
+<article class="post">
+<script
+    data-isso="https://comments.example.com/"
+    data-isso-id="thread-id"
+    data-isso-css="true"
+    data-isso-lang="de"
+    data-isso-reply-to-self="true"
+    data-isso-require-author="true"
+    data-isso-require-email="true"
+    data-isso-avatar="true"
+    data-isso-avatar-bg="#f0f0f0"
+    data-isso-feed="false"
+    src="https://comments.example.com/js/embed.min.js">
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://posativ.org/isso/">Isso</a>.</noscript>
+<div>
+  <section id="isso-thread"></section>
+</div>
+</article>
+
+
+
+
+
+    
 
         </main>
         

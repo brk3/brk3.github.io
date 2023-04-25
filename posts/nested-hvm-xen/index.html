@@ -3,7 +3,6 @@
 
 <html lang="en-us" data-theme="">
 <head>
-	<meta name="generator" content="Hugo 0.111.3">
     
         
 <meta charset="utf-8">
@@ -11,15 +10,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer-when-downgrade">
 
-<title>brk3.github.io</title>
+<title>Nested Xen - brk3.github.io</title>
 
-<meta name="description" content="">
-
-
-
+<meta name="description" content="As part of efforts to more regularly test the Xen hypervisor with Nova as part of OpenStack development, I&rsquo;m spending some time figuring out how to virtualise Xen on Xen, specifically Oracle&rsquo;s Oracle VM Server.
+In virtualisation terms the different levels of hypervisor are referred to as LN, where N is the nesting level. In our setup, Oracle VM Server 3.4.2 (OVM-S) is running on baremetal as L0, another instance of OVM-S is running on that as L1, and the final OpenStack instantiated guest would be L2.">
 
 
-<link rel="alternate" type="application/rss+xml" href="https://brk3.github.io/index.xml" title="brk3.github.io" />
+
+
+
 <link rel="icon" type="image/x-icon" href="https://brk3.github.io/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://brk3.github.io/favicon.png">
 
@@ -86,14 +85,18 @@
 
 
 
-<meta property="og:title" content="brk3.github.io" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://brk3.github.io/" />
+<meta property="og:title" content="Nested Xen" />
+<meta property="og:description" content="As part of efforts to more regularly test the Xen hypervisor with Nova as part of OpenStack development, I&rsquo;m spending some time figuring out how to virtualise Xen on Xen, specifically Oracle&rsquo;s Oracle VM Server.
+In virtualisation terms the different levels of hypervisor are referred to as LN, where N is the nesting level. In our setup, Oracle VM Server 3.4.2 (OVM-S) is running on baremetal as L0, another instance of OVM-S is running on that as L1, and the final OpenStack instantiated guest would be L2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://brk3.github.io/posts/nested-hvm-xen/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-01-18T16:47:06+00:00" />
+<meta property="article:modified_time" content="2017-01-18T16:47:06+00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="brk3.github.io"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="Nested Xen"/>
+<meta name="twitter:description" content="As part of efforts to more regularly test the Xen hypervisor with Nova as part of OpenStack development, I&rsquo;m spending some time figuring out how to virtualise Xen on Xen, specifically Oracle&rsquo;s Oracle VM Server.
+In virtualisation terms the different levels of hypervisor are referred to as LN, where N is the nesting level. In our setup, Oracle VM Server 3.4.2 (OVM-S) is running on baremetal as L0, another instance of OVM-S is running on that as L1, and the final OpenStack instantiated guest would be L2."/>
 
 
 
@@ -220,79 +223,84 @@ if (!doNotTrack) {
         </header>
         <main id="main" tabindex="-1"> 
             
-    <div class="homepage-content">
-        
-    </div>
+    
 
-    <div class="articles h-feed">
-        
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/kubeadm-dns/">How to replace coredns with kube-dns</a></h1>
-        </header>
-        
-    </div>
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">Nested Xen</h1>
 
-    
-    
-    
-    
+                
+            </header>
+        </div>
+        <div class="content e-content">
+            <p>As part of efforts to more regularly test the Xen hypervisor with Nova as part of OpenStack
+development, I&rsquo;m spending some time figuring out how to virtualise Xen on Xen, specifically Oracle&rsquo;s
+<a href="https://www.oracle.com/virtualization/vm-server-for-x86/index.html">Oracle VM Server</a>.</p>
+<p>In virtualisation terms the different levels of hypervisor are referred to as <em>LN</em>, where N is the
+<a href="https://wiki.xenproject.org/wiki/Nested_Virtualization_in_Xen#Introduction">nesting level</a>. In our setup, Oracle VM Server 3.4.2 (OVM-S) is running on baremetal as <em>L0</em>,
+another instance of OVM-S is running on that as <em>L1</em>, and the final OpenStack instantiated guest
+would be <em>L2</em>.</p>
+<p>There are not so many blogs or up to date howtos in this area, so most of the below comes direct
+from the official <a href="https://xenbits.xen.org/docs/unstable/man/xl.cfg.5.html">Xen documentation</a>.</p>
+<p>Also, we&rsquo;re using the xenlight (xl) toolkit, as of yet I have not found how to enable the relevant
+parameters in libvirt to make nesting work.</p>
+<p>Starting from <em>L0</em>, here is an example <em>xl</em> guest config file:</p>
+<pre tabindex="0"><code>builder = &#34;hvm&#34;
+name = &#34;example&#34;
+memory = 4096
+vcpus = 2
+vif = [ &#39;bridge=xenbr0&#39; ]
+disk = [ &#39;format=raw, vdev=hda, access=rw, target=/root/disk.img&#39;, &#39;format=raw, vdev=hdc, access=ro, devtype=cdrom, target=/root/V789846-01.iso&#39; ]
+vnc = 1
+vnclisten=&#34;0.0.0.0&#34;
+hap=1
+nestedhvm=1
+cpuid = [&#39;0x1:ecx=0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;]
+</code></pre><p>This is copied directly from <em>/etc/xen/xlexample.hvm</em>, with minor tweaks for disks and networking.
+The sample files are a good place to start as the above example will almost certainly be out of date
+in time.</p>
+<p>I&rsquo;m using bridged <a href="https://wiki.xenproject.org/wiki/Xen_Networking">networking</a>, <em>xenbr0</em> was created in the usual way with the hosts default
+interface added to it.</p>
+<p>The last three <a href="https://wiki.xenproject.org/wiki/Nested_Virtualization_in_Xen#Quick-start_guide">lines</a> are the important pieces, without these <em>L1</em> will fail to install with the
+following error:</p>
+<pre tabindex="0"><code>libxl__domain_make domain creation fail: cannot make domain: -3
+</code></pre><p>Once logged into <em>L1</em>, an image can be booted for <em>L2</em>. In an OpenStack environment Nova will be
+managing this step. To verify it&rsquo;s working however, we can boot Cirros in Xen using the following
+config:</p>
+<pre tabindex="0"><code>builder = &#34;hvm&#34;
+name = &#34;example.hvm&#34;
+memory = 128
+vcpus = 2
+vif = [ &#39;xenbr0&#39; ]
+disk = [ &#39;/root/cirros.img,qcow2,xvda&#39; ]
+vnc = 1
+vnclisten=&#34;0.0.0.0&#34;
+</code></pre><h2 id="todo" >TODO
+<span>
+    <a href="#todo">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>I will continue to update this post in time as I make improvements to this process. In particular, I
+would like to solve the following:</p>
+<ul>
+<li>Set the required nesting params via libvirt, so that we aren&rsquo;t forced to use xl.</li>
+<li>Install using console rather than VNC.</li>
+</ul>
+
+        </div>
+        
 
     
 
 
 <div class="post-info">
     
-        <div class="post-date dt-published">21-03-2019</div>
+        <div class="post-date dt-published">18-01-2017</div>
     
 
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/kubeadm-dns/">https://brk3.github.io/posts/kubeadm-dns/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/notes/">notes</a></li>
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/kubernetes/">kubernetes</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/kolla-ironic-libvirt/">Deploying virtual baremetal with Ironic &amp; Kolla</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">19-04-2018</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/kolla-ironic-libvirt/">https://brk3.github.io/posts/kolla-ironic-libvirt/</a>
+    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/nested-hvm-xen/">https://brk3.github.io/posts/nested-hvm-xen/</a>
     <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
 
 
@@ -316,107 +324,70 @@ if (!doNotTrack) {
     </div>
 </div>
 
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/debugging-murano-with-kolla/">Debugging Murano with Kolla</a></h1>
-        </header>
-        
-    </div>
+    </article>
 
     
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">15-06-2017</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/debugging-murano-with-kolla/">https://brk3.github.io/posts/debugging-murano-with-kolla/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/openstack/">openstack</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
-        
-            <article class="post-list h-feed">
-    <div class="post-header">
-        <header>
-            <h1 class="p-name post-title"><a class="u-url" href="/posts/gmusic-to-spotify/">Importing albums from Google Music to Spotify</a></h1>
-        </header>
-        
-    </div>
-
-    
-    
-    
-    
-
-    
-
-
-<div class="post-info">
-    
-        <div class="post-date dt-published">26-05-2017</div>
-    
-
-    <a class="post-hidden-url u-url" href="https://brk3.github.io/posts/gmusic-to-spotify/">https://brk3.github.io/posts/gmusic-to-spotify/</a>
-    <a href="https://brk3.github.io/" class="p-name p-author post-hidden-author h-card" rel="me">Paul Bourke</a>
-
-
-    <div class="post-taxonomies">
-        
-            <ul class="post-categories">
-                
-                    
-                    <li><a href="https://brk3.github.io/categories/howto/">howto</a></li>
-                
-            </ul>
-        
-        
-        
-    </div>
-</div>
-
-</article>
         
         
     
+
     
-    <div class="pagination">
-        <div class="left pagination-item disabled">
+        
+    <div class="pagination post-pagination">
+        <div class="left pagination-item ">
+            
+                <a href="/posts/gmusic-to-spotify/">Importing albums from Google Music to Spotify</a>
             
         </div>
         <div class="right pagination-item ">
             
-                <a href="/page/2/">to old posts</a>
+                <a href="/posts/libvirt-dns/">Libvirt DNS</a>
             
         </div>
     </div>
 
 
-    </div>
 
+
+    
+
+    
+        
+
+
+
+
+    
+
+
+
+
+
+<article class="post">
+<script
+    data-isso="https://comments.example.com/"
+    data-isso-id="thread-id"
+    data-isso-css="true"
+    data-isso-lang="de"
+    data-isso-reply-to-self="true"
+    data-isso-require-author="true"
+    data-isso-require-email="true"
+    data-isso-avatar="true"
+    data-isso-avatar-bg="#f0f0f0"
+    data-isso-feed="false"
+    src="https://comments.example.com/js/embed.min.js">
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://posativ.org/isso/">Isso</a>.</noscript>
+<div>
+  <section id="isso-thread"></section>
+</div>
+</article>
+
+
+
+
+
+    
 
         </main>
         

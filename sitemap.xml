@@ -1,94 +1,58 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://brk3.github.io/</loc>
     <lastmod>2019-03-21T12:01:43+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://brk3.github.io/categories/</loc>
     <lastmod>2019-03-21T12:01:43+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/kubeadm-dns/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/kubeadm-dns/</loc>
     <lastmod>2019-03-21T12:01:43+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://brk3.github.io/categories/kubernetes/</loc>
     <lastmod>2019-03-21T12:01:43+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://brk3.github.io/categories/notes/</loc>
     <lastmod>2019-03-21T12:01:43+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/</loc>
     <lastmod>2019-03-21T12:01:43+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/kolla-ironic-libvirt/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/kolla-ironic-libvirt/</loc>
     <lastmod>2018-04-19T12:46:12+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://brk3.github.io/categories/howto/</loc>
     <lastmod>2018-04-19T12:46:12+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://brk3.github.io/categories/openstack/</loc>
     <lastmod>2018-04-19T12:46:12+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://brk3.github.io/categories/virtualisation/</loc>
     <lastmod>2018-04-19T12:46:12+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/debugging-murano-with-kolla/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/debugging-murano-with-kolla/</loc>
     <lastmod>2017-06-15T16:31:32+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/gmusic-to-spotify/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/gmusic-to-spotify/</loc>
     <lastmod>2017-05-26T10:56:50+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/nested-hvm-xen/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/nested-hvm-xen/</loc>
     <lastmod>2017-01-18T16:47:06+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/libvirt-dns/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/libvirt-dns/</loc>
     <lastmod>2017-01-09T12:26:42+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/how-to-hugo/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/how-to-hugo/</loc>
     <lastmod>2017-01-06T17:15:03+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brk3.github.io/post/hello-world/</loc>
+  </url><url>
+    <loc>https://brk3.github.io/posts/hello-world/</loc>
     <lastmod>2016-12-01T14:13:31+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://brk3.github.io/categories/misc/</loc>
     <lastmod>2016-12-01T14:13:31+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://brk3.github.io/tags/</loc>
   </url>
-  
 </urlset>
